@@ -1,34 +1,61 @@
 #include <stdio.h>
 #include <string>
-//Biblioteki do kolorów:
-#include <windows.h> //s³abe rozwi¹zanie które raczej (chocia¿ s¹ wyj¹tki) bêdzie dzia³aæ tylko na Windowsie :/
+//Biblioteki do kolorÃ³w:
+#include <windows.h> //sÅ‚abe rozwiÄ…zanie ktÃ³re raczej (chociaÅ¼ sÄ… wyjÄ…tki) bÄ™dzie dziaÅ‚aÄ‡ tylko na Windowsie :/
 #include <iostream>
 #include <cstdlib>
 //===============================================
-#include <conio.h> //polskie znaki -jeszcze nie dzia³aj¹
+#include <conio.h> //polskie znaki -jeszcze nie dziaÅ‚ajÄ…
 
-int stan_uz = 1; //zmienna stan_uz okreœla czy u¿ytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyœlnie ustawione na 0 - niezalogowany
+int stan_uz = 1; //zmienna stan_uz okreÅ›la czy uÅ¼ytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. DomyÅ›lnie ustawione na 0 - niezalogowany
 
-HANDLE kolor; //zmienna przetrzymuj¹ca nasze kolorki (tak dzia³a w windowsie)
+HANDLE kolor; //zmienna przetrzymujÄ…ca nasze kolorki (tak dziaÅ‚a w windowsie)
 
 using namespace std;
 
 
 void menu (int stan_uz) {
-	bool stan = true; //wykorzystywane do pêtli for
-	do {	
-		SetConsoleTextAttribute (kolor, 10); //kolor komunikatów systemu
-		cout << "Testowa ¿Ÿæœ¹ wersja menu (wiele moze jeszcze ulec zmianie)\n" << endl;
-		SetConsoleTextAttribute (kolor, 15); //kolor komunikatów systemu
-		cout << "Prosze wybrac odpowiednia opcje za pomoca cyfry z zakresu od x do y: "	 << endl;		
+	bool stan = true; //wykorzystywane do pÄ™tli for
+	do {
+		stan = true;	
+		SetConsoleTextAttribute (kolor, 10); //kolor komunikatÃ³w systemu
+		cout << "Testowa wersja menu (wiele moze jeszcze ulec zmianie)\n" << endl;
+		SetConsoleTextAttribute (kolor, 15); //domyÅ›lny kolor
+		cout << "Prosze wybrac odpowiednia opcje za pomoca cyfry z zakresu od x do y: "	 << endl;	
+		cout << "\n1. Logowanie;\n2. Rejestracja;\n3. Zmiana hasla;\n4. Wyszukaj film;\n5. Kategorie filmÃ³w;\n6. Proponowane filmy;\n7. Lista Å¼yczeÅ„;\n8. Dane kontaktowe;" << endl;
 		int wybor;
+		SetConsoleTextAttribute (kolor, 8);
+		cout << "\n\nTwÃ³j wybÃ³r: "; 
+		SetConsoleTextAttribute (kolor, 15);
 		cin >> wybor;
 		if (stan_uz == 1) { //Zalogowany uzytkownik
 				switch(wybor) {
 					SetConsoleTextAttribute (kolor, 15);
+	
+		//===================UWAGA! Funckie nie przyjmujÄ… zmiennych!===================//
+		
 					case 1:
+						cout << "JesteÅ› juÅ¼ zalogowanym uÅ¼ytkownikiem" << endl;
+						stan = false;
 						break;
 					case 2:
+						cout << "JesteÅ› zarejestrowanym uÅ¼ytkownikiem" << endl;
+						stan = false;
+						break;
+					case 3:
+		//				zmiana_hasla();
+						break;
+					case 4:
+		//				wyszukaj(); 			
+						break;
+					case 5:
+		//				wyszukaj(); 
+						break;
+					case 6:
+		//				proponowane(stan_uz);
+						break;
+					case 7:
+		//				lista_zyczen();  <- Do wyrzucenia?
 						break;
 					default:
 						system("cls");
@@ -38,14 +65,36 @@ void menu (int stan_uz) {
 						system("pause");
 						system("cls");
 						stan = false;
+						break;
 				}
 	
 
 		} else if (stan_uz == 0 ) { //Uzytkownik nie jest zalogowany
 			switch(wybor) {
 				case 1:
+	//				logowanie();
 					break;
 				case 2:
+	//				rejestracja();
+					break;
+				case 3:
+	//				zmiana_hasla();
+					break;
+				case 4:		
+	//				wyszukaj();
+					break;
+				case 5:
+	//				wyszukaj();
+					break;
+				case 6:
+	//				proponowane(stan_uz);
+					break;
+				case 7:
+					cout << "Odmowa dostÄ™pu. UsÅ‚uga dostÄ™pna wyÅ‚Ä…cznie dla zalogowanych uÅ¼ytkownikÃ³w" << endl;
+					stan = false;
+					break;
+				case 8:
+	//				dane_kontaktowe();
 					break;
 				default:
 					break;
