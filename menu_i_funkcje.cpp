@@ -6,7 +6,7 @@
 #include <cstdlib>
 //===============================================
 #include <conio.h> //polskie znaki -jeszcze nie działają
-
+#include <cctype> //Biblioteka do zmiany wielkości liter
 int stan_uz = 1; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
 
 HANDLE kolor; //zmienna przetrzymująca nasze kolorki (tak działa w windowsie)
@@ -21,42 +21,51 @@ void menu (int stan_uz) {
 		SetConsoleTextAttribute (kolor, 10); //kolor komunikatów systemu
 		cout << "Testowa wersja menu (wiele moze jeszcze ulec zmianie)\n" << endl;
 		SetConsoleTextAttribute (kolor, 15); //domyślny kolor
-		cout << "Prosze wybrac odpowiednia opcje za pomoca cyfry z zakresu od x do y: "	 << endl;	
-		cout << "\n1. Logowanie;\n2. Rejestracja;\n3. Zmiana hasla;\n4. Wyszukaj film;\n5. Kategorie filmów;\n6. Proponowane filmy;\n7. Lista życzeń;\n8. Dane kontaktowe;" << endl;
-		int wybor;
+		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym: "	 << endl;	
+		cout << "\n[L]  Logowanie;\n[R]  Rejestracja;\n[Z]  Zmiana hasla;\n[W]  Wyszukaj film;\n[K]  Kategorie filmów;\n[P]  Proponowane filmy;\n[U]  Lista życzeń;\n[D]  Dane kontaktowe;" << endl;
+		char wybor;
 		SetConsoleTextAttribute (kolor, 8);
 		cout << "\n\nTwój wybór: "; 
 		SetConsoleTextAttribute (kolor, 15);
 		cin >> wybor;
 		if (stan_uz == 1) { //Zalogowany uzytkownik
-				switch(wybor) {
+				switch(toupper(wybor)) {
 					SetConsoleTextAttribute (kolor, 15);
 	
 		//===================UWAGA! Funckie nie przyjmują zmiennych!===================//
 		
-					case 1:
+					case 'L':
 						cout << "Jesteś już zalogowanym użytkownikiem" << endl;
+						SetConsoleTextAttribute (kolor, 8);
+						system("pause");
+						system("cls");
 						stan = false;
 						break;
-					case 2:
+					case 'R':
 						cout << "Jesteś zarejestrowanym użytkownikiem" << endl;
+						SetConsoleTextAttribute (kolor, 8);
+						system("pause");
+						system("cls");
 						stan = false;
 						break;
-					case 3:
+					case 'Z':
 		//				zmiana_hasla();
 						break;
-					case 4:
+					case 'W':
 		//				wyszukaj(); 			
 						break;
-					case 5:
+					case 'K':
 		//				wyszukaj(); 
 						break;
-					case 6:
+					case 'P':
 		//				proponowane(stan_uz);
 						break;
-					case 7:
+					case 'U':
 		//				lista_zyczen();  <- Do wyrzucenia?
 						break;
+					case 'D':
+		//				dane_kontaktowe();
+					break;
 					default:
 						system("cls");
 						SetConsoleTextAttribute (kolor, 10); 
@@ -71,25 +80,25 @@ void menu (int stan_uz) {
 
 		} else if (stan_uz == 0 ) { //Uzytkownik nie jest zalogowany
 			switch(wybor) {
-				case 1:
+				case 'L':
 	//				logowanie();
 					break;
-				case 2:
+				case 'R':
 	//				rejestracja();
 					break;
-				case 3:
+				case 'Z':
 	//				zmiana_hasla();
 					break;
-				case 4:		
+				case 'W':		
 	//				wyszukaj();
 					break;
-				case 5:
+				case 'K':
 	//				wyszukaj();
 					break;
-				case 6:
+				case 'P':
 	//				proponowane(stan_uz);
 					break;
-				case 7:
+				case 'U':
 					cout << "Odmowa dostępu. Usługa dostępna wyłącznie dla zalogowanych użytkowników" << endl;
 					stan = false;
 					break;
