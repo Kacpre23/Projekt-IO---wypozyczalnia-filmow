@@ -1,9 +1,13 @@
-﻿#include <iostream>
+#include <iostream>
 #include <stdio.h>
 #include <string>
+#include <windows.h>
+#include <cstdlib>
+
 using namespace std;
 
 int stan_uz = 0;
+HANDLE kolor;
 
 class Klient
 {
@@ -18,91 +22,116 @@ class Klient
     Klient* nast = NULL;
 public:
     Klient() {};
-    int Rejestracja(Klient* nowy) //funkcja rejestrujaca
+    int Rejestracja() //funkcja rejestrujaca
     {
-        if (nowy == NULL)
+        SetConsoleTextAttribute(kolor, 15);
+        nast = new Klient;
+        cout << endl << "Login: ";
+        cin >> login;
+        cout << endl << "Haslo: ";
+        cin >> haslo;
+        cout << endl << "Imie: ";
+        cin >> imie;
+        cout << endl << "Nazwisko: ";
+        cin >> nazwisko;
+        cout << endl << "Adres zamieszkania";
+        cout << endl << "Ulica: ";
+        cin >> ulica;
+        cout << endl << "Kod pocztowy: ";
+        cin >> kodpocztowy;
+        cout << endl << "Miasto: ";
+        cin >> miasto;
+        cout << endl << "Kraj: ";
+        cin >> kraj;
+        if (Weryfikacja_danych(login) == 1)
         {
-            nast = new Klient;
-            cout << "Login: " << endl;
-            cin >> login;
-            cout << "Haslo: " << endl;
-            cin >> haslo;
-            cout << "Imie: " << endl;
-            cin >> imie;
-            cout << "Nazwisko: " << endl;
-            cin >> nazwisko;
-            cout << "Adres zamieszkania" << endl;
-            cout << "Ulica: " << endl;
-            cin >> ulica;
-            cout << "Kod pocztowy: " << endl;
-            cin >> kodpocztowy;
-            cout << "Miasto: " << endl;
-            cin >> miasto;
-            cout << "Kraj: " << endl;
-            cin >> kraj;
-            Weryfikacja_danych(login);
+            cout << "Zarejestrowano" << endl;
         }
         else
         {
-            nowy = nast;
+            delete nast;
+            cout << "Blad rejestracji, wpisany login juz istnieje" << endl;
+            // tu powrot do menu
         }
+        return 0;
     }
 
 
-    int Logowanie(string l, string h) //funkcja logujaca
+    int Logowanie() //funkcja logujaca
     {
+        string l, h;
         do 
         {
-            cout << "Login: " << endl;
+            SetConsoleTextAttribute(kolor, 15);
+            cout << endl << "Login: ";
             cin >> l;
-            cout << "Haslo: " << endl;
+            cout << endl << "Haslo: ";
             cin >> h;
             if (l == login && h == haslo)
             {
-                cout << "Zalogowano" << endl;
+                cout << endl << "Zalogowano" << endl;
                 stan_uz = 1;
             }
             else
             {
-                cout << "Blad logowania" << endl;
+                string x;
+                cout << endl << "Blad logowania, czy chcesz sprobowac jeszcze raz?" << endl;
+                cout << "Wpisz T/N" << endl;
+                cin >> x;
+                if (x == "T"||x=="t")
+                {
+                    Logowanie();
+                }
+                if (x == "N" || x == "n")
+                {
+                    cout << "Anulowano logowanie" << endl;
+                    // tu przejscie do menu
+                }
             }
-        } while (stan_uz==1);
+        } while (stan_uz==0);
+        return stan_uz;
         
     }
 
     int Zmiana_hasla() //funkcja do zmiany hasla
     {
+        SetConsoleTextAttribute(kolor, 15);
         string oldhaslo, newhaslo, newhaslo1;
         cout << "Stare haslo: " << endl;
         cin >> oldhaslo;
         if (oldhaslo == haslo)
         {
-            cout << "Nowe haslo: " << endl;
+            cout << endl << "Nowe haslo: ";
             cin >> newhaslo;
-            cout << "Powtorz nowe haslo: " << endl;
+            cout << endl << "Powtorz nowe haslo: ";
             cin >> newhaslo1;
             if (newhaslo == newhaslo1)
             {
-                cout << "Haslo zostalo zmienione" << endl;
+                cout << endl << "Haslo zostalo zmienione" << endl;
                 haslo = newhaslo;
             }
             else
             {
-                cout << "Hasla nie sa sobie rowne" << endl;
+                cout << endl << "Hasla nie sa sobie rowne" << endl;
             }
         }
         else
         {
             cout << "Stare haslo nieprawidlowe" << endl;
         }
+        return 0;
     }
 
-    void Weryfikacja_danych(string login) //funkcja sprawdzajaca czy dane z rejestracji nie powtarzaja sie z innymi uzytkownikami
+    int Weryfikacja_danych(string login) //funkcja sprawdzajaca czy dane z rejestracji nie powtarzaja sie z innymi uzytkownikami
     {
         /*if (login == listalogin)
         {
             cout << "Wpisany login juz istnieje, prosze wybrac inny" << endl;
-        }*/
+            // powrot do menu
+        }
+        return x; // tu zwraca czy prawidlowo zweryfikowano rejestracje
+        */
+        return 1;
     }
 };
 
@@ -110,5 +139,9 @@ public:
 
 int main()
 {
-    
+    kolor = GetStdHandle(STD_OUTPUT_HANDLE);
+    Klient k1;
+    k1.Rejestracja();
+    k1.Logowanie();
+    k1.Zmiana_hasla();
 }
