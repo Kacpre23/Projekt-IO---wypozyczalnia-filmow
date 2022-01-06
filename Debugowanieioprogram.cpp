@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <string>
 #include <vector> //do dadnaia
 #include <algorithm> // do dodania
@@ -28,6 +28,7 @@ class Film {
 public:
 
 	Film() {};
+	~Film() {};
 
 	void Dodaj() {
 		// SetConsoleTextAttribute (kolor, 15);
@@ -81,7 +82,7 @@ class Baza_danych {
 public:
 
 	Baza_danych() {};
-
+	~Baza_danych() {};
 	void Dodaj_do_bazy(Film* film) {
 		baza_danych.push_back(**&film);
 		liczba_filmow++;
@@ -311,6 +312,8 @@ int main() {
 	} while (a == 1);
 
 
+	delete &film;
+	delete &Baza_danych;
 	return 0;
 
 }
