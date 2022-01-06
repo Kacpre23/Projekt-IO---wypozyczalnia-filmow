@@ -31,6 +31,26 @@ void Show(node* H) {
     cout << "NULL" << endl;
 }
 
+class Dane_kontaktowe
+{
+public:
+    string imie = "Imie";
+    string nazwisko = "Nazwisko";
+    string mail = "Mail";
+    string numer_tel = "123 123 123";
+    string ulica = "Ul. ";
+    string kodpocztowy = "00-000";
+    string miasto = "Krakow";
+    string kraj = "Polska";
+    void wyswietl_kontakt()
+    {
+        cout << "Imie: " << imie << endl << "Nazwisko: " << nazwisko << endl;
+        cout << "Mail: " << mail << endl << "Nr telefonu: " << numer_tel << endl;
+        cout << "Ulica: " << ulica << endl << "Miasto: " << miasto << endl;
+        cout << "Kod pocztowy: " << kodpocztowy << endl << "Kraj: " << kraj << endl;
+    }
+};
+
 class Klient
 {
     string imie;
@@ -173,17 +193,11 @@ public:
     }
 };
 
-
-
 int main()
 {
     kolor = GetStdHandle(STD_OUTPUT_HANDLE);
     Klient k1;
+    Dane_kontaktowe d1;
     node* listaloginow = NULL;
-    k1.Rejestracja(listaloginow);
-    Klient k2, k3;
-    k2.Rejestracja(listaloginow);
-    k3.Rejestracja(listaloginow);
-    k2.Logowanie();
-    k3.Logowanie();
+    d1.wyswietl_kontakt();
 }
