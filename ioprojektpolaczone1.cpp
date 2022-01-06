@@ -13,25 +13,25 @@ HANDLE kolor; //zmienna przetrzymująca nasze kolorki (tak działa w windowsie)
 using namespace std;
 
 struct node {
-	string val;
-	node* next;
+    string val;
+    node* next;
 };
 
 void AddToList(node*& H, string x) {
-	node* p = new node;
-	p->val = x;
-	p->next = H;
-	H = p;
+    node* p = new node;
+    p->val = x;
+    p->next = H;
+    H = p;
 }
 
 void Show(node* H) {
-	cout << "H -> ";
-	node* p = H;
-	while (p != NULL) {
-		cout << p->val << " -> ";
-		p = p->next;
-	}
-	cout << "NULL" << endl;
+    cout << "H -> ";
+    node* p = H;
+    while (p != NULL) {
+        cout << p->val << " -> ";
+        p = p->next;
+    }
+    cout << "NULL" << endl;
 }
 
 class Dane_kontaktowe
@@ -94,10 +94,8 @@ public:
         cin >> kraj;
         if (Weryfikacja_danych(listaloginow, login) == 0)
         {
-            Show(listaloginow);
             AddToList(listaloginow, login);
             cout << "Zarejestrowano" << endl;
-            Show(listaloginow);
         }
         else
         {
@@ -120,14 +118,14 @@ public:
             cin >> l;
             SetConsoleTextAttribute(kolor, 8);
             cout << endl << "Haslo: ";
-     	   SetConsoleTextAttribute(kolor, 15);
+            SetConsoleTextAttribute(kolor, 15);
             cin >> h;
             if (l == login && h == haslo)
             {
-            	system("cls");
+                system("cls");
                 cout << endl << "Zalogowano" << endl;
-           	    SetConsoleTextAttribute(kolor, 8);
-		        system("pause");
+                SetConsoleTextAttribute(kolor, 8);
+                system("pause");
                 stan_uz = 1;
                 return stan_uz;
             }
@@ -180,17 +178,20 @@ public:
                 SetConsoleTextAttribute(kolor, 10);
                 cout << endl << "Haslo zostalo zmienione" << endl;
                 haslo = newhaslo;
+                stan_uz = false;
             }
             else
             {
                 SetConsoleTextAttribute(kolor, 10);
                 cout << endl << "Hasla nie sa sobie rowne" << endl;
+                stan_uz = false;
             }
         }
         else
         {
             SetConsoleTextAttribute(kolor, 10);
             cout << "Stare haslo nieprawidlowe" << endl;
+            stan_uz = false;
         }
         return 0;
     }
@@ -225,118 +226,66 @@ Dane_kontaktowe Dane_kontaktowe;
 node* listaloginow = NULL;
 
 void menu(int stan_uz) {
-	bool stan = true; //wykorzystywane do pętli for
-	do {
-		system("cls");
-		stan = true;
-		
-		cout << "Stan uzytkownika: " << stan_uz << "\n\n";
-		
-		SetConsoleTextAttribute(kolor, 10); //kolor komunikatów systemu
-		cout << "Testowa wersja menu (wiele moze jeszcze ulec zmianie)\n" << endl;
-		SetConsoleTextAttribute(kolor, 15); //domyślny kolor
-		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym: " << endl;
-		cout << "\n[L]  Logowanie;\n[R]  Rejestracja;\n[Z]  Zmiana hasla;\n[W]  Wyszukaj film;\n[K]  Kategorie filmów;\n[P]  Proponowane filmy;\n[U]  Lista życzeń;\n[D]  Dane kontaktowe;" << endl;
-		char wybor;
-		SetConsoleTextAttribute(kolor, 8);
-		cout << "\n\nTwój wybór: ";
-		SetConsoleTextAttribute(kolor, 15);
-		cin >> wybor;
-		if (stan_uz == 1) { //Zalogowany uzytkownik
-			switch (toupper(wybor)) {
-				SetConsoleTextAttribute(kolor, 15);
+    bool stan = true; //wykorzystywane do pętli for
+    do {
+        system("cls");
+        stan = true;
 
-				//===================UWAGA! Funckie nie przyjmują zmiennych!===================//
+        cout << "Stan uzytkownika: " << stan_uz << "\n\n";
 
-			case 'L':
-				cout << "Jesteś już zalogowanym użytkownikiem" << endl;
-				SetConsoleTextAttribute(kolor, 8);
-				system("pause");
-				system("cls");
-				stan = false;
-				break;
-			case 'R':
-				cout << "Jesteś zarejestrowanym użytkownikiem" << endl;
-				SetConsoleTextAttribute(kolor, 8);
-				system("pause");
-				system("cls");
-				stan = false;
-				break;
-			case 'Z':
-                Klient.Zmiana_hasla();
-				break;
-			case 'W':
-				//				wyszukaj(); 			
-				break;
-			case 'K':
-				//				wyszukaj(); 
-				break;
-			case 'P':
-				//				proponowane(stan_uz);
-				break;
-			case 'U':
-				//				lista_zyczen();  <- Do wyrzucenia?
-				break;
-			case 'D':
-                system("cls");
-                Dane_kontaktowe.wyswietl_kontakt();
-                system("pause");
-                stan = false;
-				break;
-			default:
-				system("cls");
-				SetConsoleTextAttribute(kolor, 10);
-				cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
-				SetConsoleTextAttribute(kolor, 8);
-				system("pause");
-				system("cls");
-				stan = false;
-				break;
-			}
+        SetConsoleTextAttribute(kolor, 10); //kolor komunikatów systemu
+        cout << "Testowa wersja menu (wiele moze jeszcze ulec zmianie)\n" << endl;
+        SetConsoleTextAttribute(kolor, 15); //domyślny kolor
+        cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym: " << endl;
+        cout << "\n[L]  Logowanie;\n[R]  Rejestracja;\n[Z]  Zmiana hasla;\n[W]  Wyszukaj film;\n[K]  Kategorie filmów;\n[P]  Proponowane filmy;\n[U]  Lista życzeń;\n[D]  Dane kontaktowe;" << endl;
+        char wybor;
+        SetConsoleTextAttribute(kolor, 8);
+        cout << "\n\nTwój wybór: ";
+        SetConsoleTextAttribute(kolor, 15);
+        cin >> wybor;
+        if (stan_uz == 1) { //Zalogowany uzytkownik
+            switch (toupper(wybor)) {
+                SetConsoleTextAttribute(kolor, 15);
 
+                //===================UWAGA! Funckie nie przyjmują zmiennych!===================//
 
-		}
-		else if (stan_uz == 0) { //Uzytkownik nie jest zalogowany
-			switch (toupper(wybor)) {
-			case 'L':
-                system("cls");
-                Klient.Logowanie();
+            case 'L':
+                cout << "Jesteś już zalogowanym użytkownikiem" << endl;
                 SetConsoleTextAttribute(kolor, 8);
+                system("pause");
                 system("cls");
-                system("pause");
                 stan = false;
                 break;
-			case 'R':
+            case 'R':
+                cout << "Jesteś zarejestrowanym użytkownikiem" << endl;
+                SetConsoleTextAttribute(kolor, 8);
+                system("pause");
                 system("cls");
-                Klient.Rejestracja(listaloginow);
-                system("pause");
                 stan = false;
                 break;
-			case 'Z':
-                cout << "Odmowa dostępu. Usługa dostępna wyłącznie dla zalogowanych użytkowników" << endl;
-                system("pause");
+            case 'Z':
+                Klient.Zmiana_hasla();
                 stan = false;
                 break;
-			case 'W':
-				//				wyszukaj();
-				break;
-			case 'K':
-				//				wyszukaj();
-				break;
-			case 'P':
-				//				proponowane(stan_uz);
-				break;
-			case 'U':
-				cout << "Odmowa dostępu. Usługa dostępna wyłącznie dla zalogowanych użytkowników" << endl;
-			    system("pause");
-				stan = false;
-				break;
-			case 8:
+            case 'W':
+                //				wyszukaj(); 			
+                break;
+            case 'K':
+                //				wyszukaj(); 
+                break;
+            case 'P':
+                //				proponowane(stan_uz);
+                break;
+            case 'U':
+                //				lista_zyczen();  <- Do wyrzucenia?
+                break;
+            case 'D':
                 system("cls");
                 Dane_kontaktowe.wyswietl_kontakt();
+                system("pause");
                 stan = false;
-				break;
-			default:
+                break;
+            default:
                 system("cls");
                 SetConsoleTextAttribute(kolor, 10);
                 cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
@@ -345,14 +294,68 @@ void menu(int stan_uz) {
                 system("cls");
                 stan = false;
                 break;
-			}
-		}
-	} while (stan == false);
+            }
+
+
+        }
+        else if (stan_uz == 0) { //Uzytkownik nie jest zalogowany
+            switch (toupper(wybor)) {
+            case 'L':
+                system("cls");
+                stan_uz = Klient.Logowanie();
+                SetConsoleTextAttribute(kolor, 8);
+                system("cls");
+                system("pause");
+                stan = false;
+                break;
+            case 'R':
+                system("cls");
+                Klient.Rejestracja(listaloginow);
+                system("pause");
+                stan = false;
+                break;
+            case 'Z':
+                cout << "Odmowa dostępu. Usługa dostępna wyłącznie dla zalogowanych użytkowników" << endl;
+                system("pause");
+                stan = false;
+                break;
+            case 'W':
+                //				wyszukaj();
+                break;
+            case 'K':
+                //				wyszukaj();
+                break;
+            case 'P':
+                //				proponowane(stan_uz);
+                break;
+            case 'U':
+                cout << "Odmowa dostępu. Usługa dostępna wyłącznie dla zalogowanych użytkowników" << endl;
+                system("pause");
+                stan = false;
+                break;
+            case 'D':
+                system("cls");
+                Dane_kontaktowe.wyswietl_kontakt();
+                system("pause");
+                stan = false;
+                break;
+            default:
+                system("cls");
+                SetConsoleTextAttribute(kolor, 10);
+                cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+                SetConsoleTextAttribute(kolor, 8);
+                system("pause");
+                system("cls");
+                stan = false;
+                break;
+            }
+        }
+    } while (stan == false);
 }
 
 int main() {
-	setlocale(LC_ALL, "polish");
-	kolor = GetStdHandle(STD_OUTPUT_HANDLE);
-	menu(stan_uz);
+    setlocale(LC_ALL, "polish");
+    kolor = GetStdHandle(STD_OUTPUT_HANDLE);
+    menu(stan_uz);
 
 }
