@@ -20,3 +20,5 @@ void wypiszKonta(Konto_seg* &pocz);
 void dodajKonta(Konto_seg* &pocz, string im, string naz, string log, string has, string adr);
 
 int wczytajKonta(Konto_seg* &pocz);
+
+void wyszukajKonto(Konto_seg* &pocz, string log);

@@ -22,7 +22,6 @@ void wypiszKonta(Konto_seg* &pocz)
         p = p->nast;
         i++;
     }
-    cout << endl;
 }
 
 /* Dodawanie konta na koniec listy */
@@ -114,4 +113,27 @@ int wczytajKonta(Konto_seg* &pocz)
     }
     plik.close();
     return 0;
+}
+
+void wyszukajKonto(Konto_seg* &pocz, string log)
+{
+    Konto_seg * p = pocz;
+    int i = 1;
+    //cout << "Wyszukiwanie:" << endl;
+    while(p)
+    {
+        //cout << i << ".[" << p->login << "]" << endl;
+        //cout << endl;
+        if(p->login==log)
+        {
+            cout << "[" << p->login << "]" << endl;
+            //cout << ">" << p->haslo << endl; // Do debugowania
+            cout << " " << p->imie << " " << p->nazwisko << endl;
+            cout << " " << p->adres << endl;
+            break;
+        }
+        p = p->nast;
+        i++;
+    }
+    cout << endl;
 }
