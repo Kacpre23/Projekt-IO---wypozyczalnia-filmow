@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <string>
 //Biblioteki do kolorów:
 #include <windows.h> //słabe rozwiązanie które raczej (chociaż są wyjątki) będzie działać tylko na Windowsie :/
@@ -7,7 +7,7 @@
 //===============================================
 #include <conio.h> //polskie znaki -jeszcze nie działają
 #include <cctype> //Biblioteka do zmiany wielkości liter
-int stan_uz = 0; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
+int stan_uz = 1; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
 
 HANDLE kolor; //zmienna przetrzymująca nasze kolorki (tak działa w windowsie)
 using namespace std;
@@ -45,6 +45,7 @@ public:
     string kodpocztowy = "00-000";
     string miasto = "Krakow";
     string kraj = "Polska";
+    friend void menu(int stan_uz);
     void wyswietl_kontakt()
     {
         SetConsoleTextAttribute(kolor, 15);
@@ -140,7 +141,8 @@ public:
                 {
                     SetConsoleTextAttribute(kolor, 10);
                     cout << "Anulowano logowanie" << endl;
-                    // tu przejscie do menu
+                    stan = false;
+                    break;
                 }
             }
         } while (stan_uz == 0);
@@ -284,7 +286,7 @@ void menu(int stan_uz) {
 
 		}
 		else if (stan_uz == 0) { //Uzytkownik nie jest zalogowany
-			switch (wybor) {
+			switch (toupper(wybor)) {
 			case 'L':
                 system("cls");
                 Klient.Logowanie();
@@ -317,9 +319,17 @@ void menu(int stan_uz) {
 			case 8:
                 system("cls");
                 Dane_kontaktowe.wyswietl_kontakt();
+                stan = false;
 				break;
 			default:
-				break;
+                system("cls");
+                SetConsoleTextAttribute(kolor, 10);
+                cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+                SetConsoleTextAttribute(kolor, 8);
+                system("pause");
+                system("cls");
+                stan = false;
+                break;
 			}
 		}
 	} while (stan == false);
