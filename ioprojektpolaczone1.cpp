@@ -7,7 +7,7 @@
 //===============================================
 #include <conio.h> //polskie znaki -jeszcze nie działają
 #include <cctype> //Biblioteka do zmiany wielkości liter
-int stan_uz = 1; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
+int stan_uz = 0; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
 
 HANDLE kolor; //zmienna przetrzymująca nasze kolorki (tak działa w windowsie)
 using namespace std;
@@ -114,16 +114,22 @@ public:
         string l, h;
         do
         {
-            SetConsoleTextAttribute(kolor, 15);
             SetConsoleTextAttribute(kolor, 8);
             cout << endl << "Login: ";
+            SetConsoleTextAttribute(kolor, 15);
             cin >> l;
+            SetConsoleTextAttribute(kolor, 8);
             cout << endl << "Haslo: ";
+     	   SetConsoleTextAttribute(kolor, 15);
             cin >> h;
             if (l == login && h == haslo)
             {
+            	system("cls");
                 cout << endl << "Zalogowano" << endl;
+           	    SetConsoleTextAttribute(kolor, 8);
+		        system("pause");
                 stan_uz = 1;
+                return stan_uz;
             }
             else
             {
@@ -141,7 +147,8 @@ public:
                 {
                     SetConsoleTextAttribute(kolor, 10);
                     cout << "Anulowano logowanie" << endl;
-                    stan = false;
+                    SetConsoleTextAttribute(kolor, 8);
+                    stan_uz = false;
                     break;
                 }
             }
@@ -220,7 +227,11 @@ node* listaloginow = NULL;
 void menu(int stan_uz) {
 	bool stan = true; //wykorzystywane do pętli for
 	do {
+		system("cls");
 		stan = true;
+		
+		cout << "Stan uzytkownika: " << stan_uz << "\n\n";
+		
 		SetConsoleTextAttribute(kolor, 10); //kolor komunikatów systemu
 		cout << "Testowa wersja menu (wiele moze jeszcze ulec zmianie)\n" << endl;
 		SetConsoleTextAttribute(kolor, 15); //domyślny kolor
@@ -290,6 +301,8 @@ void menu(int stan_uz) {
 			case 'L':
                 system("cls");
                 Klient.Logowanie();
+                SetConsoleTextAttribute(kolor, 8);
+                system("cls");
                 system("pause");
                 stan = false;
                 break;
@@ -301,6 +314,7 @@ void menu(int stan_uz) {
                 break;
 			case 'Z':
                 cout << "Odmowa dostępu. Usługa dostępna wyłącznie dla zalogowanych użytkowników" << endl;
+                system("pause");
                 stan = false;
                 break;
 			case 'W':
@@ -314,6 +328,7 @@ void menu(int stan_uz) {
 				break;
 			case 'U':
 				cout << "Odmowa dostępu. Usługa dostępna wyłącznie dla zalogowanych użytkowników" << endl;
+			    system("pause");
 				stan = false;
 				break;
 			case 8:
