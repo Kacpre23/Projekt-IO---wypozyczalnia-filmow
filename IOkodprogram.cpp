@@ -9,6 +9,28 @@ using namespace std;
 int stan_uz = 0;
 HANDLE kolor;
 
+struct node {
+    string val;
+    node* next;
+};
+
+void AddToList(node*& H, string x) {
+    node* p = new node;
+    p->val = x;
+    p->next = H;
+    H = p;
+}
+
+void Show(node* H) {
+    cout << "H -> ";
+    node* p = H;
+    while (p != NULL) {
+        cout << p->val << " -> ";
+        p = p->next;
+    }
+    cout << "NULL" << endl;
+}
+
 class Klient
 {
     string imie;
@@ -22,7 +44,7 @@ class Klient
     Klient* nast = NULL;
 public:
     Klient() {};
-    int Rejestracja() //funkcja rejestrujaca
+    int Rejestracja(node*& listaloginow) //funkcja rejestrujaca
     {
         SetConsoleTextAttribute(kolor, 15);
         nast = new Klient;
@@ -43,9 +65,12 @@ public:
         cin >> miasto;
         cout << endl << "Kraj: ";
         cin >> kraj;
-        if (Weryfikacja_danych(login) == 1)
+        if (Weryfikacja_danych(listaloginow ,login) == 0)
         {
+            Show(listaloginow);
+            AddToList(listaloginow, login);
             cout << "Zarejestrowano" << endl;
+            Show(listaloginow);
         }
         else
         {
@@ -122,16 +147,29 @@ public:
         return 0;
     }
 
-    int Weryfikacja_danych(string login) //funkcja sprawdzajaca czy dane z rejestracji nie powtarzaja sie z innymi uzytkownikami
+    int Weryfikacja_danych(node*& listaloginow, string login) //funkcja sprawdzajaca czy dane z rejestracji nie powtarzaja sie z innymi uzytkownikami
     {
-        /*if (login == listalogin)
+        SetConsoleTextAttribute(kolor, 15);
+        if (listaloginow == NULL)
         {
-            cout << "Wpisany login juz istnieje, prosze wybrac inny" << endl;
-            // powrot do menu
+            return 0;
         }
-        return x; // tu zwraca czy prawidlowo zweryfikowano rejestracje
-        */
-        return 1;
+        if (listaloginow != NULL)
+        {
+            node* p = listaloginow;
+            while (p != NULL)
+            {
+                if (login == p->val)
+                {
+                    return 1;
+                }
+                p = p->next;
+            }
+            if (p == NULL)
+            {
+                return 0;
+            }
+        }
     }
 };
 
@@ -141,7 +179,11 @@ int main()
 {
     kolor = GetStdHandle(STD_OUTPUT_HANDLE);
     Klient k1;
-    k1.Rejestracja();
-    k1.Logowanie();
-    k1.Zmiana_hasla();
+    node* listaloginow = NULL;
+    k1.Rejestracja(listaloginow);
+    Klient k2, k3;
+    k2.Rejestracja(listaloginow);
+    k3.Rejestracja(listaloginow);
+    k2.Logowanie();
+    k3.Logowanie();
 }
