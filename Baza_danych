@@ -155,7 +155,7 @@ class Baza_danych {
 							default:
 								system("cls");
 							//	SetConsoleTextAttribute (kolor, 10); 
-								cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+								cout << "Wybrano niepoprawna opcje, prosze sprobowac ponownie\n\n";
 							//	SetConsoleTextAttribute (kolor, 8);
 								system("pause");
 								system("cls");
