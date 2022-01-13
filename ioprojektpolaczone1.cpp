@@ -173,8 +173,9 @@ public:
             if (newhaslo == newhaslo1)
             {
                 SetConsoleTextAttribute(kolor, 10);
-                cout << endl << "Haslo zostalo zmienione" << endl;
                 haslo = newhaslo;
+                cout << endl << "Haslo zostalo zmienione" << endl;
+                
             }
             else
             {
