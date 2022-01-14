@@ -249,14 +249,14 @@ class Baza_danych {
 	}
 
 
-	 void save() {
+	 void zapiszDane() {
       ofstream plik("plik.txt");
 	      for(vector<Film>::iterator i = baza_danych.begin(); i < baza_danych.end(); i++)
 	        plik<<i->toString();
 	      plik.close();
   	  }
 
-    void load() {
+    void odczytajDane() {
       ifstream plik("plik.txt");
       while(plik) {
         string i,n,p,e,t;
