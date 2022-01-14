@@ -42,7 +42,7 @@ class Film {
 		cin >> Kategoria;		
 		cout << "\nProsze podac tytul fimu: ";
 		cin >> Nazwa_Filmu;
-		cout << "\nProsze podac pierwsza litere i nazwisko rezysera fimu (w nastepujacym formacie A.Kowalski): ";
+		cout << "\nProsze podac pierwsza litere i nazwisko rezysera filmu (w nastepujacym formacie A.Kowalski): ";
 		cin >> Rezyser;
 		cout << "\nProsze podac rok produkcji: ";
 		cin >> rok;
