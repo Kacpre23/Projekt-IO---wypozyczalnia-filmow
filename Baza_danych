@@ -40,7 +40,7 @@ class Film {
 		// SetConsoleTextAttribute (kolor, 15);
 		cout << "\nProsze podac kategorie filmu: ";
 		cin >> Kategoria;		
-		cout << "\nProsze podac tytul fimu: ";
+		cout << "\nProsze podac tytul filmu: ";
 		cin >> Nazwa_Filmu;
 		cout << "\nProsze podac pierwsza litere i nazwisko rezysera filmu (w nastepujacym formacie A.Kowalski): ";
 		cin >> Rezyser;
