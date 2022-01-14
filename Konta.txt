@@ -1,6 +1,0 @@
-Haslo123 Login Nazwisko Imie
-Ulica nr kod_pocztowy Miasto
-Haslo ze spacjami SultanKosmitow Walaszek Bartosz
-Ulica nr kod_pocztowy Warszawa
-koperek123 Mak2022 Maklowicz Robert
-Ulica nr kod_pocztowy Warszawa
