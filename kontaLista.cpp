@@ -50,7 +50,7 @@ void dodajKonta(Konto_seg* &pocz, string im, string naz, string log, string has,
 }
 
 /* Tworzenie nowej listy kont przy pomocy pliku z danymi */
-int wczytajKonta(Konto_seg* &pocz)
+int odczytajDane(Konto_seg* &pocz)
 {
     fstream plik;
     plik.open( "Konta.txt", std::ios::in );
@@ -135,7 +135,7 @@ void wyszukajKonto(Konto_seg* &pocz, string log)
     cout << endl;
 }
 
-int zapiszKonta(Konto_seg* &pocz)
+int zapiszDane(Konto_seg* &pocz)
 {
     fstream plik;
     plik.open( "Konta.txt", std::ios::out );
