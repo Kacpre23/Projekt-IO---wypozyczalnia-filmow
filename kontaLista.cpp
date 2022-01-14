@@ -64,7 +64,8 @@ int wczytajKonta(Konto_seg* &pocz)
 
     string dane;
     // Forma zapisu (oddzielone spacjami):
-    // [haslo][login][adres][nazwisko][imie]
+    // wiersz 1: [haslo][login][nazwisko][imie]
+    // wiersz 2: [adres]
     string im;
     string naz;
     string log;
@@ -89,15 +90,6 @@ int wczytajKonta(Konto_seg* &pocz)
         //cout << dane.substr(i+1) << endl;   // Do debugowania
         naz = dane.substr(i+1);
         dane.erase(i);
-// Adres
-        for(int s=0;s<4;i--)
-        {
-            if(dane[i]==32)
-                s++;
-        } i++;
-        //cout << dane.substr(i+1) << endl;   // Do debugowania
-        adr = dane.substr(i+1);
-        dane.erase(i);
 // Login
         for(;dane[i]!=32;i--){}
         //cout << dane.substr(i+1) << endl;   // Do debugowania
@@ -105,6 +97,11 @@ int wczytajKonta(Konto_seg* &pocz)
         dane.erase(i);
 // Haslo
         has = dane;
+// Adres
+        getline( plik, dane );
+        adr = dane;
+
+        //getline( plik, dane );  // Dla pustego wiersza
 
         // Do debugowania
         //cout << "Pobrano: " << im << ", " << naz << ", " << adr << ", " << log << ", " << has << endl;
@@ -136,4 +133,45 @@ void wyszukajKonto(Konto_seg* &pocz, string log)
         i++;
     }
     cout << endl;
+}
+
+int zapiszKonta(Konto_seg* &pocz)
+{
+    fstream plik;
+    plik.open( "Konta.txt", std::ios::out );
+
+    if(!plik.good())
+    {
+        cout << "Error: Problem z zapisem danych klientow" << endl;
+        return -1;
+    }
+
+    Konto_seg * p = pocz;
+    int i = 1;
+    string dane;
+
+    cout << "Zapisywanie..." << endl;
+    // Forma zapisu (oddzielone spacjami):
+    // wiersz 1: [haslo][login][nazwisko][imie]
+    // wiersz 2: [adres]
+    // wiersz 3: pusty
+    while(p)
+    {
+        //cout << i << "#" << endl;
+        if(i>=2)
+            plik << endl;
+
+        plik << p->haslo << " " << p->login << " " << p->nazwisko << " " << p->imie << endl;
+        plik << p->adres;
+
+    // Do debugowania
+        //cout << p->haslo << " " << p->login << " " << p->nazwisko << " " << p->imie << endl;
+        //cout << p->adres;
+        //cout << endl;
+
+        p = p->nast;
+        i++;
+    }
+    plik.close();
+    return 0;
 }
