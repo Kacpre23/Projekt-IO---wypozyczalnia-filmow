@@ -368,6 +368,9 @@ void Show(node* H) {
 	cout << "NULL" << endl;
 }
 
+node* listaloginow = NULL;
+
+
 class Dane_kontaktowe
 {
 public:
@@ -584,6 +587,133 @@ public:
             }
         }
     }
+
+    void odczytajDane() // Uwaga! Ten mechanizm uzywa pierwszego obiektu w liscie
+    {                   // tylko do przechowywania adresu "pierwszego" konta
+        fstream plik;
+        plik.open( "Konta.txt", std::ios::in );
+
+        if(!plik.good())
+        {
+            cout << "Error: Problem z zaladowaniem danych klientow" << endl;
+        }
+        else
+        {
+            //cout << "Laduje dane kont..." << endl;  // do debugowania
+            while( !plik.eof() )
+            {
+                Klient * p = nast;
+                Klient * wsk = new Klient;
+
+                string dane;
+                // Forma zapisu (oddzielone spacjami):
+                // wiersz 1: [imie]
+                // wiersz 2: [nazwisko]
+                // wiersz 3: [login]
+                // wiersz 4: [haslo]
+                // wiersz 5: [ulica]
+                // wiersz 6: [kod pocztowy]
+                // wiersz 7: [miasto]
+                // wiersz 8: [kraj]
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->imie = dane;
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->nazwisko = dane;
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->login = dane;
+                AddToList(listaloginow, dane);
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->haslo = dane;
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->ulica = dane;
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->kodpocztowy = dane;
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->miasto = dane;
+
+                getline(plik, dane);
+                //cout << dane << endl;   // do debugowania
+                wsk->kraj = dane;
+
+                wsk->nast = NULL;
+                if(p)
+                {
+                    while(p->nast)
+                        p = p->nast;
+                    p->nast = wsk;
+                }
+                else
+                {
+                    nast = wsk;
+                }
+            }
+        }
+        plik.close();
+    }
+
+    void zapiszDane()
+    {
+        Klient * p = nast;
+        int i = 1;
+        fstream plik;
+        plik.open( "Konta.txt", std::ios::out );
+        string dane;
+
+        if(!plik.good())
+        {
+            cout << "Error: Problem z zapisem danych klientow" << endl;
+        }
+        else
+        {
+            cout << "Zapisuje dane klientow..." << endl;
+            while(p)
+            {
+                if(i>=2)
+                    plik << endl;
+                plik << p->imie << endl;
+                plik << p->nazwisko << endl;
+                plik << p->login << endl;
+                plik << p->haslo << endl;
+                plik << p->ulica << endl;
+                plik << p->kodpocztowy << endl;
+                plik << p->miasto << endl;
+                plik << p->kraj;
+
+                p = p->nast;
+                i++;
+            }
+        }
+        plik.close();
+    }
+
+    void wypiszDane()   // Do debugowania - aby sprawdzic
+    {                   // poprawnosc wczytanych danych
+        Klient * p = nast;
+        int i = 1;
+        cout << "Lista obiektow:" << endl;
+        while(p)
+        {
+            cout << i << ". |" << p->imie << "|" << p->nazwisko << "|" << p->login << "|" << p->haslo << "|" << endl;
+            cout << "   |" << p->ulica << "|" << p->kodpocztowy << "|" << p->miasto << "|" << p->kraj << "|" << endl;
+            cout << endl;
+            p = p->nast;
+            i++;
+        }
+    }
 };
 
 
@@ -591,7 +721,6 @@ Baza_danych Baza_danych;
 Film film;
 Klient Klient;
 Dane_kontaktowe DaneKontaktowe;
-node* listaloginow = NULL;
 
 
 void wyszukanie() {
@@ -630,9 +759,9 @@ void wyszukanie() {
 			case'S':
 				Baza_danych.Wypisz();
 				break;
-			case'P':
-				Baza_danych.odczytajDane();
-				break;
+			//case'P':  // Po co to istnieje?!
+			//	Baza_danych.odczytajDane();
+			//	break;
 		}
 			default:
 				system("cls");
@@ -763,11 +892,17 @@ int main()
 {
     setlocale(LC_ALL, "polish");
     kolor = GetStdHandle(STD_OUTPUT_HANDLE);
+    Baza_danych.odczytajDane();
+    Klient.odczytajDane();
 
-    menu(stan_uz);
+//    Klient.wypiszDane();          // Do debugowania
+//    Show(listaloginow);           // Do debugowania
 
-//    Baza_danych.odczytajDane();   // Do debugowania
+//    menu(stan_uz);
+
+
     Baza_danych.zapiszDane();
+    Klient.zapiszDane();
 
     return 0;
 }
