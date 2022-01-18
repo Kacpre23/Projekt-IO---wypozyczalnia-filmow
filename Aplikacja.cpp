@@ -13,8 +13,8 @@
 
 using namespace std;
 
-int stan_uz = 1; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
-int admin = 1; //Uprawnienia administratora
+int stan_uz = 0; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
+int admin = 0; //Uprawnienia administratora
 HANDLE kolor; //zmienna przetrzymuj¹ca nasze kolorki (tak dzia³a w windowsie)
 
 
@@ -39,7 +39,7 @@ public:
 		Rezyser = r;
 		rok = e;
 		stan_rezerwacji2 = t;
-		cout << "Jestem tu" << endl;
+		//cout << "Jestem tu" << endl;
 	}
 
     void Dodaj () {
@@ -335,7 +335,8 @@ public:
                 getline( plik, dane );
                 rz = dane;
 
-                cout << "Pobrano: " << tyt << "|" << rk << "|" << rez << "|" << kat << "|" << rz << "|" << endl;
+                // Do debugowania
+                //cout << "Pobrano: " << tyt << "|" << rk << "|" << rez << "|" << kat << "|" << rz << "|" << endl;
 
                 Film tmp(kat,tyt,rez,rk,rz);
                 baza_danych.push_back(*&tmp);
@@ -485,7 +486,7 @@ public:
         return 1;
     }
 
-    int Logowanie() //funkcja logujaca
+    int Logowanie()    // Funkcja logujaca uzytkownika
     {
         string l, h;
         do
@@ -696,6 +697,7 @@ public:
                 p = p->nast;
                 i++;
             }
+            cout << "Zapisano" << endl;
         }
         plik.close();
     }
@@ -786,7 +788,9 @@ void menu(int stan_uz) {
 		cout << "Testowa wersja menu (wiele moze jeszcze ulec zmianie)\n" << endl;
 		SetConsoleTextAttribute(kolor, 15); //domyœlny kolor
 		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym: " << endl;
-		cout << "\n[L]  Logowanie;\n[R]  Rejestracja;\n[Z]  Zmiana hasla;\n[W]  Wyszukaj film;\n[K]  Kategorie filmów;\n[P]  Proponowane filmy;\n[U]  Lista ¿yczeñ;\n[D]  Dane kontaktowe;" << endl;
+		cout << "\n[L]  Logowanie;\n[R]  Rejestracja;\n[Z]  Zmiana hasla;\n[W]  Wyszukaj film;\n[K]  Kategorie filmów;" << endl;
+//		cout << "[P]  Proponowane filmy;\n[U]  Lista ¿yczeñ;" << endl;
+		cout << "[D]  Dane kontaktowe;\n[X]  Wyjscie;" << endl;
 		char wybor;
 		SetConsoleTextAttribute(kolor, 8);
 		cout << "\n\nTwój wybór: ";
@@ -798,6 +802,7 @@ void menu(int stan_uz) {
 
 				//===================UWAGA! Funckie nie przyjmuj¹ zmiennych!===================//
 
+            // Logowanie
 			case 'L':
 				cout << "Jesteœ ju¿ zalogowanym u¿ytkownikiem" << endl;
 				SetConsoleTextAttribute(kolor, 8);
@@ -805,6 +810,7 @@ void menu(int stan_uz) {
 				system("cls");
 				stan = false;
 				break;
+            // Rejestracja
 			case 'R':
 				cout << "Jesteœ zarejestrowanym u¿ytkownikiem" << endl;
 				SetConsoleTextAttribute(kolor, 8);
@@ -812,27 +818,51 @@ void menu(int stan_uz) {
 				system("cls");
 				stan = false;
 				break;
+            // Zmiana hasla
 			case 'Z':
                 Klient.Zmiana_hasla();
 				break;
+            // Wyszukaj film
 			case 'W':
 				//				wyszukaj();
+				stan = false;
 				break;
+            // Wyszukaj kategoriam
 			case 'K':
 				//				wyszukaj();
+				stan = false;
 				break;
-			case 'P':
-				//				proponowane(stan_uz);
-				break;
-			case 'U':
-				//				lista_zyczen();  <- Do wyrzucenia?
-				break;
+            // Dane kontaktowe
 			case 'D':
                 system("cls");
                 DaneKontaktowe.wyswietl_kontakt();
                 system("pause");
                 stan = false;
 				break;
+            // Wyjscie
+            case 'X':
+                cout << "Czy napewno chcesz wyjsc? (t/n)" << endl;
+                char d;
+                while(true)
+                {
+                    cin >> d;
+                    if(d=='t')
+                    {
+                        cout << "Do widzenia!" << endl;
+                        break;
+                    }
+                    else if(d=='n')
+                    {
+                        stan = false;
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Niepoprawna opcja" << endl;
+                    }
+                }
+                break;
+
 			default:
 				system("cls");
 				SetConsoleTextAttribute(kolor, 10);
@@ -848,40 +878,72 @@ void menu(int stan_uz) {
 		}
 		else if (stan_uz == 0) { //Uzytkownik nie jest zalogowany
 			switch (toupper(wybor)) {
+            // Logowanie
 			case 'L':
                 system("cls");
                 Klient.Logowanie();
                 system("pause");
                 stan = false;
                 break;
+            // Rejestracja
 			case 'R':
                 system("cls");
                 Klient.Rejestracja(listaloginow);
                 system("pause");
                 stan = false;
                 break;
+            // Zmiana hasla
 			case 'Z':
                 cout << "Odmowa dostêpu. Us³uga dostêpna wy³¹cznie dla zalogowanych u¿ytkowników" << endl;
                 stan = false;
                 break;
+            // Wyszukaj film
 			case 'W':
 				//				wyszukaj();
+                stan = false;
 				break;
+            // Wyszukaj kategoriami
 			case 'K':
 				//				wyszukaj();
+                stan = false;
 				break;
-			case 'P':
-				//				proponowane(stan_uz);
-				break;
-			case 'U':
-				cout << "Odmowa dostêpu. Us³uga dostêpna wy³¹cznie dla zalogowanych u¿ytkowników" << endl;
-				stan = false;
-				break;
-			case 8:
+            // Dane kontaktowe
+			case 'D':
                 system("cls");
                 DaneKontaktowe.wyswietl_kontakt();
 				break;
+            // Wyjscie
+            case 'X':
+                cout << "Czy napewno chcesz wyjsc? (t/n)" << endl;
+                char d;
+                while(true)
+                {
+                    cin >> d;
+                    if(d=='t')
+                    {
+                        cout << "Do widzenia!" << endl;
+                        break;
+                    }
+                    else if(d=='n')
+                    {
+                        stan = false;
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Niepoprawna opcja" << endl;
+                    }
+                }
+                break;
+
 			default:
+				system("cls");
+				SetConsoleTextAttribute(kolor, 10);
+				cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+				SetConsoleTextAttribute(kolor, 8);
+				system("pause");
+				system("cls");
+				stan = false;
 				break;
 			}
 		}
@@ -898,7 +960,7 @@ int main()
 //    Klient.wypiszDane();          // Do debugowania
 //    Show(listaloginow);           // Do debugowania
 
-//    menu(stan_uz);
+    menu(stan_uz);
 
 
     Baza_danych.zapiszDane();
