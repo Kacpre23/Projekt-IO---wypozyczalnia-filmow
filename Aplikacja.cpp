@@ -879,7 +879,7 @@ void menu(int stan_uz) {
             // Logowanie
 			case 'L':
                 system("cls");
-                Klient.Logowanie();
+                stan_uz = Klient.Logowanie();
                 system("pause");
                 stan = false;
                 break;
