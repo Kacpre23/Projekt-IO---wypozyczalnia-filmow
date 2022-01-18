@@ -444,43 +444,85 @@ class Klient
 public:
     friend void menu(int stan_uz);
     Klient() {};
+
     int Rejestracja(node*& listaloginow) //funkcja rejestrujaca
     {
+        Klient * p = nast;
+        Klient * wsk = new Klient;
+        string dane;
+        getline(cin, dane); // To ma tutaj byc zeby program dzialal
+
         SetConsoleTextAttribute(kolor, 15);
-        nast = new Klient;
         SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Login: ";
-        cin >> login;
+        getline(cin, dane);
+        wsk->imie = dane;
+
         cout << endl << "Haslo: ";
-        cin >> haslo;
+        getline(cin, dane);
+        wsk->nazwisko = dane;
+
         cout << endl << "Imie: ";
-        cin >> imie;
+        getline(cin, dane);
+        wsk->login = dane;
+
         cout << endl << "Nazwisko: ";
-        cin >> nazwisko;
+        getline(cin, dane);
+        wsk->haslo = dane;
+
         cout << endl << "Adres zamieszkania";
         cout << endl << "Ulica: ";
-        cin >> ulica;
+        getline(cin, dane);
+        wsk->ulica = dane;
+
         cout << endl << "Kod pocztowy: ";
-        cin >> kodpocztowy;
+        getline(cin, dane);
+        wsk->kodpocztowy = dane;
+
         cout << endl << "Miasto: ";
-        cin >> miasto;
+        getline(cin, dane);
+        wsk->miasto = dane;
+
         cout << endl << "Kraj: ";
-        cin >> kraj;
-        if (Weryfikacja_konta(listaloginow, login) == 0)
+        getline(cin, dane);
+        wsk->kraj = dane;
+
+        wsk->nast = NULL;
+        if(p)
         {
-            Show(listaloginow);
-            AddToList(listaloginow, login);
-            cout << "Zarejestrowano" << endl;
-            Show(listaloginow);
+            while(p->nast)
+                p = p->nast;
+            p->nast = wsk;
         }
         else
         {
-            delete nast;
-            cout << "Blad rejestracji, wpisany login juz istnieje" << endl;
-            // tu powrot do menu
+            // Weryfikacja
+            // nast = wsk; lub delete wsk;
+
+            if(Weryfikacja_konta(listaloginow, wsk->login))
+            {
+                delete wsk;
+                return 0;
+            }
+            else    // W przypadku powodzenia weryfikacji funkcja
+            {       // z automatu takze loguje nwego uzytkownika
+                nast = wsk;
+                AddToList(listaloginow, wsk->login);
+
+                imie = p->imie;
+                nazwisko = p->nazwisko;
+                login = p->login;
+                haslo = p->haslo;
+                ulica = p->ulica;
+                kodpocztowy = p->kodpocztowy;
+                miasto = p->miasto;
+                kraj = p->kraj;
+
+                return 1;
+            }
         }
-        return 0;
     }
+
     int Zalogowano(int stan)
     {
         return 1;
@@ -490,13 +532,15 @@ public:
     {                       // Wykozystuje pola przed lisa
         string l, h;        // kont do przechowywania danych
         Klient * p = nast;  // zalogowanego
+        string x;
+        getline(cin, x); // To musi tutaj byc aby wszystko dzialalo
 
         SetConsoleTextAttribute(kolor, 15);
         SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Login: ";
-        cin >> l;
+        getline(cin, l);
         cout << endl << "Haslo: ";
-        cin >> h;
+        getline(cin, h);
 
         while(p)
         {
@@ -527,27 +571,51 @@ public:
     int Zmiana_hasla() //funkcja do zmiany hasla
     {
         SetConsoleTextAttribute(kolor, 15);
-        string oldhaslo, newhaslo, newhaslo1;
+        string oldhaslo, newhaslo, newhaslo1, dane;
+        Klient * p = nast;
+
+        getline(cin, dane); // To musi tutaj byc aby wszystko dzialalo
+
         SetConsoleTextAttribute(kolor, 15);
         cout << "Stare haslo: ";
         SetConsoleTextAttribute(kolor, 8);
-        cin >> oldhaslo;
+        getline(cin, oldhaslo);
+
         if (oldhaslo == haslo)
         {
             SetConsoleTextAttribute(kolor, 15);
             cout << endl << "Nowe haslo: ";
             SetConsoleTextAttribute(kolor, 8);
-            cin >> newhaslo;
+            getline(cin, newhaslo);
+
             SetConsoleTextAttribute(kolor, 15);
             cout << endl << "Powtorz nowe haslo: ";
             SetConsoleTextAttribute(kolor, 8);
-            cin >> newhaslo1;
+            getline(cin, newhaslo1);
+
             if (newhaslo == newhaslo1)
             {
                 SetConsoleTextAttribute(kolor, 10);
                 haslo = newhaslo;
-                cout << endl << "Haslo zostalo zmienione" << endl;
 
+                if(p)
+                {
+                    while(p)    // Zmina hasla w bazie
+                    {           // uzytkownikow
+                        if(p->login==login)
+                        {
+                            p->haslo = haslo;
+                            break;
+                        }
+                        p = p->nast;
+                    }
+                }
+                else
+                {
+                    cout << "Error: Brak danych o kontach" << endl;
+                }
+
+                cout << endl << "Haslo zostalo zmienione" << endl;
             }
             else
             {
@@ -819,6 +887,7 @@ void menu(int stan_uz) {
             // Zmiana hasla
 			case 'Z':
                 Klient.Zmiana_hasla();
+				stan = false;
 				break;
             // Wyszukaj film
 			case 'W':
