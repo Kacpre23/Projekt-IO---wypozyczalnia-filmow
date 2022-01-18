@@ -486,44 +486,42 @@ public:
         return 1;
     }
 
-    int Logowanie()    // Funkcja logujaca uzytkownika
-    {
-        string l, h;
-        do
-        {
-            SetConsoleTextAttribute(kolor, 15);
-            SetConsoleTextAttribute(kolor, 8);
-            cout << endl << "Login: ";
-            cin >> l;
-            cout << endl << "Haslo: ";
-            cin >> h;
-            if (l == login && h == haslo)
-            {
-                cout << endl << "Zalogowano" << endl;
-                stan_uz = Zalogowano(stan_uz);
-            }
-            else
-            {
-                string x;
-                SetConsoleTextAttribute(kolor, 10);
-                cout << endl << "Blad logowania, czy chcesz sprobowac jeszcze raz?" << endl;
-                SetConsoleTextAttribute(kolor, 8);
-                cout << "Wpisz T/N" << endl;
-                cin >> x;
-                if (x == "T" || x == "t")
-                {
-                    Logowanie();
-                }
-                if (x == "N" || x == "n")
-                {
-                    SetConsoleTextAttribute(kolor, 10);
-                    cout << "Anulowano logowanie" << endl;
-                    // tu przejscie do menu
-                }
-            }
-        } while (stan_uz == 0);
-        return stan_uz;
+    int Logowanie()         // Funkcja logujaca uzytkownika
+    {                       // Wykozystuje pola przed lisa
+        string l, h;        // kont do przechowywania danych
+        Klient * p = nast;  // zalogowanego
 
+        SetConsoleTextAttribute(kolor, 15);
+        SetConsoleTextAttribute(kolor, 8);
+        cout << endl << "Login: ";
+        cin >> l;
+        cout << endl << "Haslo: ";
+        cin >> h;
+
+        while(p)
+        {
+            if(p->login==l)
+            {
+                if(p->haslo==h)
+                {
+                    imie = p->imie;
+                    nazwisko = p->nazwisko;
+                    login = p->login;
+                    haslo = p->haslo;
+                    ulica = p->ulica;
+                    kodpocztowy = p->kodpocztowy;
+                    miasto = p->miasto;
+                    kraj = p->kraj;
+                    cout << "Zalogowano pomyslnie" << endl;
+                    cout << "Witaj " << login << endl;
+                    return 1;
+                }
+            }
+            p = p->nast;
+        }
+
+        cout << "Error: Login lub haslo sa niepoprawne" << endl;
+        return 0;
     }
 
     int Zmiana_hasla() //funkcja do zmiany hasla
@@ -888,7 +886,7 @@ void menu(int stan_uz) {
             // Rejestracja
 			case 'R':
                 system("cls");
-                Klient.Rejestracja(listaloginow);
+                stan_uz = Klient.Rejestracja(listaloginow);
                 system("pause");
                 stan = false;
                 break;
