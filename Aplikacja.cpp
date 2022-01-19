@@ -70,11 +70,11 @@ public:
 
     void wypisz () {
 		// SetConsoleTextAttribute (kolor, 15);
-		cout << "\nKategoria filmu: " << Kategoria << endl;
-		cout << "\nTytul filmu: " << Nazwa_Filmu << endl;
-		cout << "Rezyser filmu: " << Rezyser << endl;
-		cout << "Rok produkcji: " << rok << endl;
-		cout << "Stan rezerwacji: " <<  stan_rezerwacji2;
+		cout << "\nTytul filmu:    \t" << Nazwa_Filmu << endl;
+		cout << "Rok produkcji:    \t" << rok << endl;
+		cout << "Kategoria filmu:  \t" << Kategoria << endl;
+		cout << "Rezyser filmu:    \t" << Rezyser << endl;
+		cout << "Stan rezerwacji:  \t" << stan_rezerwacji2 << endl;
 	}
 
     string toString()	{
@@ -127,9 +127,11 @@ public:
 
     void Dostepnosc() {
 		string tytul;
+		getline(cin, tytul);
 		//	SetConsoleTextAttribute (kolor, 8);
+
 		cout << "\nProsze wpisac tytul filmu: ";
-		cin >> tytul;
+		getline(cin, tytul);
 		int pom = -1;
 		for (int i = 0; i < liczba_filmow; i++) {
 				if (!tytul.compare(baza_danych[i].getTytul())) {
@@ -204,6 +206,7 @@ public:
 		//  SetConsoleTextAttribute (kolor, 10);
 			cout << "\nFilm zostal poprawnie wypozyczony" << endl;
 		//	SetConsoleTextAttribute (kolor, 8);
+            liczba_filmow--;
 			system("pause");
 			system("cls");
         }
@@ -272,7 +275,7 @@ public:
         plik.open( "Filmy.txt", ios::out );
         int n = baza_danych.end() - baza_danych.begin();
 
-        cout << "Zapisywanie: " << liczba_filmow << " filmow..." << endl;
+        cout << "Zapisywanie: " << n << " filmow..." << endl;
 
         if(!plik.good())
         {
@@ -816,28 +819,37 @@ void wyszukanie()
 		stan = true;
         SetConsoleTextAttribute (kolor, 15); //domyślny kolor
 		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym:\n"	 << endl;
-		cout << "[K] Wyszukiwanie filmu za pomoca kategorii;\n" << "[T] Wyszukiwanie filmu po tytule;\n" << "[Z] Zarezerwuj film" <<endl;
-		if (admin == 1) cout << "[D] Dodaj film do bazy danych;\n" << "[W] Wypozycz film;\n" << "[S] Stan filmow" << endl;
-		cout << "[P] Powrot" << endl;
+		cout << " [K] Wyszukiwanie filmu za pomoca kategorii;\n" << " [T] Wyszukiwanie filmu po tytule;\n" << " [Z] Zarezerwuj film" <<endl;
+		if (admin == 1) cout << "@[D] Dodaj film do bazy danych;\n" << "@[W] Wypozycz film;\n" << "@[S] Stan filmow" << endl;
+		cout << " [P] Powrot" << endl;
+		if (admin == 1) cout << endl << "@ - opcje admina" << endl;
         SetConsoleTextAttribute (kolor, 8);
 		cout << "\n\nTwoj wybor: ";
 		cin >> wybor;
-		system("cls");
 			//	SetConsoleTextAttribute (kolor, 15);
 		switch(toupper(wybor)) {
+
+		    // Wyszukanie za pomoca kategorii
 			case 'K':
+                system("cls");
 				Baza_danych.Wyszuk_Kategoria();
 				stan = false;
 				break;
+
+            // Wyszukiwanie filmu po tytule
 			case 'T':
+                system("cls");
 				Baza_danych.Dostepnosc();
 				stan = false;
 				break;
+
+            // Rezerwacja filmu
 			case 'Z':
 				Baza_danych.Dostepnosc();
 				stan = false;
 				break;
-		if (admin == 1) {
+
+            // Dla admina: Dodawanie filmu
 			case 'D':
 			    if(admin==1)    // Aby nikt nie uruchomil opcji
                 {               // admina przez przypadek
@@ -855,6 +867,8 @@ void wyszukanie()
                 }
                 stan = false;
 				break;
+
+            // Dla admina: Wypozyczane filmu
 			case'W':
 			    if(admin==1)    // Aby nikt nie uruchomil opcji
                 {               // admina przez przypadek
@@ -871,6 +885,8 @@ void wyszukanie()
                 }
                 stan = false;
 				break;
+
+            // Dla admina: Stan filmow
 			case'S':
 			    if(admin==1)    // Aby nikt nie uruchomil opcji
                 {               // admina przez przypadek
@@ -887,10 +903,12 @@ void wyszukanie()
                 }
                 stan = false;
 				break;
+
+            // Powrod do menu glownego
 			case'P':
 				stan = true;
 				break;
-		}
+
 			default:
 				system("cls");
                 //	SetConsoleTextAttribute (kolor, 10);
@@ -915,13 +933,15 @@ void menu(int stan_uz) {
 		SetConsoleTextAttribute(kolor, 15); //domyœlny kolor
 		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym: " << endl;
 		cout << "\n[L]  Logowanie;\n[R]  Rejestracja;\n[Z]  Zmiana hasla;\n[W]  Wyszukaj film;\n[K]  Kategorie filmów;" << endl;
-//		cout << "[P]  Proponowane filmy;\n[U]  Lista ¿yczeñ;" << endl;
+//		cout << "[P]  Proponowane filmy;\n[U]  Lista ¿yczeñ;" << endl;  // Usunieto
 		cout << "[D]  Dane kontaktowe;\n[X]  Wyjscie;" << endl;
 		char wybor;
+
 		SetConsoleTextAttribute(kolor, 8);
-		cout << "\n\nTwój wybór: ";
+		cout << "\n\nTwoj wybor: ";
 		SetConsoleTextAttribute(kolor, 15);
 		cin >> wybor;
+
 		if (stan_uz == 1)   // Gdy klient jest zalogowany
         {
             switch (toupper(wybor)) {
@@ -931,38 +951,39 @@ void menu(int stan_uz) {
 
             // Logowanie
 			case 'L':
-				cout << "Jesteœ ju¿ zalogowanym u¿ytkownikiem" << endl;
-				SetConsoleTextAttribute(kolor, 8);
-				system("pause");
 				system("cls");
+				cout << "Jestes juz zalogowanym uzytkownikiem" << endl;
+				SetConsoleTextAttribute(kolor, 8);
 				stan = false;
 				break;
 
             // Rejestracja
 			case 'R':
-				cout << "Jesteœ zarejestrowanym u¿ytkownikiem" << endl;
-				SetConsoleTextAttribute(kolor, 8);
-				system("pause");
 				system("cls");
+				cout << "Jestes zarejestrowanym uzytkownikiem" << endl;
+				SetConsoleTextAttribute(kolor, 8);
 				stan = false;
 				break;
 
             // Zmiana hasla
 			case 'Z':
+				system("cls");
                 Klient.Zmiana_hasla();
 				stan = false;
 				break;
 
             // Wyszukaj film
 			case 'W':
-				//				wyszukaj();
-				stan = false;
+                system("cls");
+				wyszukanie();
+                stan = false;
 				break;
 
             // Dostepne kategorie filmow
 			case 'K':
+                system("cls");
 				Baza_danych.Wyszuk_Kategoria();
-				stan = false;
+                stan = false;
 				break;
 
             // Dane kontaktowe
