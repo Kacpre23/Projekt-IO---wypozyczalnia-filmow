@@ -56,9 +56,9 @@ public:
     }
 
     void Dodaj() {
-		SetConsoleTextAttribute (kolor, 15);
-		string dane;        // To ma tutaj byc, zeby
-		getline(cin, dane); // calosc funkcionowala
+        SetConsoleTextAttribute(kolor, 15);
+        string dane;        // To ma tutaj byc, zeby
+        getline(cin, dane); // calosc funkcionowala
 
         cout << "\nProsze podac tytul filmu: ";
         //cin.sync();
@@ -521,8 +521,8 @@ public:
 
     int Rejestracja() //funkcja rejestrujaca
     {
-        Klient * p = nast;
-        Klient * wsk = new Klient;
+        Klient* p = nast;
+        Klient* wsk = new Klient;
         string dane;
         getline(cin, dane); // To ma tutaj byc zeby program dzialal
 
@@ -563,13 +563,13 @@ public:
 
         wsk->nast = NULL;
 
-        while(p->nast)
+        while (p->nast)
         {
             p = p->nast;
         }
         p->nast = wsk;
 
-        if(Weryfikacja_konta(listaloginow, wsk->login))
+        if (Weryfikacja_konta(listaloginow, wsk->login))
         {
             delete wsk;
             p->nast = NULL;
@@ -592,6 +592,10 @@ public:
             system("cls");
             SetConsoleTextAttribute(kolor, 8);
             cout << "Zarejestrowano pomyslnie" << endl;
+            SetConsoleTextAttribute(kolor, 10);
+            system("pause");
+            system("cls");
+            SetConsoleTextAttribute(kolor, 15);
             cout << "Witaj " << login << endl;
 
             zapiszDane();
@@ -923,7 +927,7 @@ void wyszukanie()
         SetConsoleTextAttribute(kolor, 15);
         cin.sync();
         cin >> wybor;
-         string tytul;
+        string tytul;
         switch (toupper(wybor)) {
 
             // Wyszukanie za pomoca kategorii
@@ -948,7 +952,7 @@ void wyszukanie()
             // Rezerwacja filmu
         case 'Z':
             SetConsoleTextAttribute(kolor, 8);
-            if(stan_uz)
+            if (stan_uz)
             {
                 cout << "\nProsze wpisac tytul filmu: ";
                 SetConsoleTextAttribute(kolor, 15);
@@ -1239,4 +1243,3 @@ int main()
 
     return 0;
 }
-
