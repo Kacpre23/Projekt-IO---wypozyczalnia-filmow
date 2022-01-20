@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 //===============================================
-#include <conio.h> //polskie znaki -jeszcze nie dzia³aj¹
+#include <conio.h> 
 #include <cctype> //Biblioteka do zmiany wielkoœci liter
 
 using namespace std;
