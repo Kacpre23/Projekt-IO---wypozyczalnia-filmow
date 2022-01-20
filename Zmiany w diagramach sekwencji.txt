@@ -1,0 +1,3 @@
+W diagramie sekwencji dla rejestracji usunięto "odczytaDane() : void" wywoływane przez "Klient".
+
+W diagramie sekwencji dla rezerwacji dodano "getStan_rezerwacji() : string" wychodzące z "Baza_danych" do "Film"
