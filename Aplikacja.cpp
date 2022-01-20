@@ -288,6 +288,7 @@ public:
         if (m == 0)
             cout << "Brak filmow z tej kategorii" << endl;
         cout << endl;
+        system("pause");
     }
 
     // Funkcja przeznaczona do odczytu z pliku informacji o filmach
