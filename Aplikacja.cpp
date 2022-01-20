@@ -1,19 +1,19 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <algorithm> 
+#include <algorithm>
 #include <fstream>
 //Biblioteki do kolorów:
 #include <windows.h>
 #include <iostream>
 #include <cstdlib>
 //===============================================
-#include <conio.h> //polskie znaki -jeszcze nie działają
-#include <cctype> //Biblioteka do zmiany wielkości liter
+#include <conio.h> //polskie znaki -jeszcze nie dzia³aj¹
+#include <cctype> //Biblioteka do zmiany wielkoœci liter
 
 using namespace std;
 
-int stan_uz = 0; //zmienna stan_uz określa czy użytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyślnie ustawione na 0 - niezalogowany
+int stan_uz = 0; //zmienna stan_uz okreœla czy u¿ytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyœlnie ustawione na 0 - niezalogowany
 int admin = 1; //Uprawnienia administratora
 HANDLE kolor; //zmienna przetrzymuj1ca nasze kolorki (tak dzia3a w windowsie)
 
@@ -40,7 +40,7 @@ public:
         stan_rezerwacji2 = t;
     }
 
-    int sprawdzenie_dostepnosci() 
+    int sprawdzenie_dostepnosci()
     {
         return 0;
     }
@@ -56,25 +56,24 @@ public:
     }
 
     void Dodaj() {
-        SetConsoleTextAttribute(kolor, 15);
-        string dane;
-        cin.sync();
-        getline(cin, dane);
+		SetConsoleTextAttribute (kolor, 15);
+		string dane;        // To ma tutaj byc, zeby
+		getline(cin, dane); // calosc funkcionowala
 
         cout << "\nProsze podac tytul filmu: ";
-        cin.sync();
+        //cin.sync();
         getline(cin, Nazwa_Filmu);
 
         cout << "\nProsze podac rok produkcji: ";
-        cin.sync();
+        //cin.sync();
         getline(cin, rok);
 
         cout << "\nProsze podac Imie i nazwisko rezysera: ";
-        cin.sync();
+        //cin.sync();
         getline(cin, Rezyser);
 
         cout << "\nProsze podac kategorie filmu: ";
-        cin.sync();
+        //cin.sync();
         getline(cin, Kategoria);
 
         stan_rezerwacji2 = "Dostepny";
@@ -94,8 +93,8 @@ public:
         cout << "Rezyser filmu:    \t" << Rezyser << endl;
         cout << "Stan rezerwacji:  \t" << stan_rezerwacji2 << endl;
         SetConsoleTextAttribute(kolor, 8);
-        system("pause");
-        system("cls");
+        //system("pause");
+        //system("cls");
     }
 
     string toString() {
@@ -144,19 +143,20 @@ public:
         cout << endl;
         SetConsoleTextAttribute(kolor, 8);
         system("pause");
+        system("cls");
     }
 
 
     void Dostepnosc(string tytul) {
         int pom = -1;
         for (int i = 0; i < liczba_filmow; i++) {
-            if (!tytul.compare(baza_danych[i].getTytul())) { //funckja porównująca stringi
+            if (!tytul.compare(baza_danych[i].getTytul())) { //funckja porównuj¹ca stringi
                 pom = i;
             }
         }
         if (pom == -1) {
             SetConsoleTextAttribute(kolor, 15);
-            cout << "Film obecnie niedostępny. Brak mozliwosci wypozyczenia." << endl;
+            cout << "Film obecnie niedostêpny. Brak mozliwosci wypozyczenia." << endl;
             SetConsoleTextAttribute(kolor, 8);
             system("pause");
             system("cls");
@@ -234,7 +234,7 @@ public:
 
     void Wyszuk_Kategoria()
     {
-        odczytajDane();
+        //odczytajDane();   // To powoduje bledy!!!
         vector <string> listaKategorii; // Ma wypisywac dostepne kategorie
         string dane;
         bool duplikat;
@@ -275,6 +275,9 @@ public:
         cin.sync();
         cin >> kategoria;
 
+        system("cls");
+        cout << "Filmy z kategorii " << kategoria << ":" << endl;
+
         n = baza_danych.end() - baza_danych.begin();
         int m = 0;
         for (int i = 0; i < n; i++)
@@ -288,7 +291,6 @@ public:
         if (m == 0)
             cout << "Brak filmow z tej kategorii" << endl;
         cout << endl;
-        system("pause");
     }
 
     // Funkcja przeznaczona do odczytu z pliku informacji o filmach
@@ -436,7 +438,7 @@ public:
         miasto = m;
         kraj = c;
     }
-    void odczytajDane() 
+    void odczytajDane()
     {
         fstream plik;
         string dane;
@@ -519,109 +521,81 @@ public:
 
     int Rejestracja() //funkcja rejestrujaca
     {
-        Klient* p = nast;
-        Klient* wsk = new Klient;
+        Klient * p = nast;
+        Klient * wsk = new Klient;
         string dane;
-        cin.sync();
-        getline(cin, dane); 
+        getline(cin, dane); // To ma tutaj byc zeby program dzialal
 
+        SetConsoleTextAttribute(kolor, 15);
         SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Login: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
-        getline(cin, dane);
-        wsk->imie = dane;
-       
-        SetConsoleTextAttribute(kolor, 8);
-        cout << endl << "Haslo: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
-        getline(cin, dane);
-        wsk->nazwisko = dane;
-
-        SetConsoleTextAttribute(kolor, 8);
-        cout << endl << "Imie: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
         getline(cin, dane);
         wsk->login = dane;
 
-        SetConsoleTextAttribute(kolor, 8);
-        cout << endl << "Nazwisko: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
+        cout << endl << "Haslo: ";
         getline(cin, dane);
         wsk->haslo = dane;
 
-        SetConsoleTextAttribute(kolor, 8);
-        cout << endl << "Adres zamieszkania: \n";
+        cout << endl << "Imie: ";
+        getline(cin, dane);
+        wsk->imie = dane;
+
+        cout << endl << "Nazwisko: ";
+        getline(cin, dane);
+        wsk->nazwisko = dane;
+
+        cout << endl << "Adres zamieszkania";
         cout << endl << "Ulica: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
         getline(cin, dane);
         wsk->ulica = dane;
 
-        SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Kod pocztowy: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
         getline(cin, dane);
         wsk->kodpocztowy = dane;
 
-        SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Miasto: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
         getline(cin, dane);
         wsk->miasto = dane;
 
-        SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Kraj: ";
-        SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
         getline(cin, dane);
         wsk->kraj = dane;
 
         wsk->nast = NULL;
-        if (p)
+
+        while(p->nast)
         {
-            while (p->nast)
-                p = p->nast;
-            p->nast = wsk;
+            p = p->nast;
         }
-        else
+        p->nast = wsk;
+
+        if(Weryfikacja_konta(listaloginow, wsk->login))
         {
-            // Weryfikacja
-            // nast = wsk; lub delete wsk;
+            delete wsk;
+            p->nast = NULL;
+            return 0;
+        }
+        else    // W przypadku powodzenia weryfikacji funkcja
+        {       // z automatu takze loguje nwego uzytkownika
+                //nast = wsk;
+            AddToList(listaloginow, wsk->login);
 
-            if (Weryfikacja_konta(listaloginow, wsk->login))
-            {
-                delete wsk;
-                return 0;
-            }
-            else    // W przypadku powodzenia weryfikacji funkcja
-            {       // z automatu takze loguje nwego uzytkownika
-                nast = wsk;
-                AddToList(listaloginow, wsk->login);
+            imie = wsk->imie;
+            nazwisko = wsk->nazwisko;
+            login = wsk->login;
+            haslo = wsk->haslo;
+            ulica = wsk->ulica;
+            kodpocztowy = wsk->kodpocztowy;
+            miasto = wsk->miasto;
+            kraj = wsk->kraj;
 
-                imie = p->imie;
-                nazwisko = p->nazwisko;
-                login = p->login;
-                haslo = p->haslo;
-                ulica = p->ulica;
-                kodpocztowy = p->kodpocztowy;
-                miasto = p->miasto;
-                kraj = p->kraj;
+            system("cls");
+            SetConsoleTextAttribute(kolor, 8);
+            cout << "Zarejestrowano pomyslnie" << endl;
+            cout << "Witaj " << login << endl;
 
-                system("cls");
-                cout << "Zarejestrowano pomyslnie" << endl;
-                cout << "Witaj " << login << endl;
-                system("pause");
-                zapiszDane();
-                system("cls");
-
-                return 0;
-            }
+            zapiszDane();
+            return 1;
         }
     }
 
@@ -635,15 +609,15 @@ public:
         string l, h;        // kont do przechowywania danych
         Klient* p = nast;  // zalogowanego
         string x;
-        cin.sync();
+        //cin.sync();
         getline(cin, x); // To musi tutaj byc aby wszystko dzialalo
 
         SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Login: ";
         SetConsoleTextAttribute(kolor, 15);
-        cin.sync();
+        //cin.sync();
         getline(cin, l);
-        cin.sync();
+        //cin.sync();
         SetConsoleTextAttribute(kolor, 8);
         cout << endl << "Haslo: ";
         SetConsoleTextAttribute(kolor, 15);
@@ -667,6 +641,8 @@ public:
 
                     system("cls");
 
+
+                    SetConsoleTextAttribute(kolor, 8);
                     cout << "Zalogowano pomyslnie" << endl;
                     cout << "Witaj " << login << endl;
                     return Zalogowano(stan_uz);
@@ -682,12 +658,12 @@ public:
 
     int Zmiana_hasla() //funkcja do zmiany hasla
     {
-        odczytajDane();
+        //odczytajDane();
         SetConsoleTextAttribute(kolor, 15);
         string oldhaslo, newhaslo, newhaslo1, dane;
         Klient* p = nast;
 
-        cin.sync();
+        //cin.sync();
         getline(cin, dane);
 
         SetConsoleTextAttribute(kolor, 15);
@@ -808,43 +784,43 @@ public:
                 // wiersz 7: [miasto]
                 // wiersz 8: [kraj]
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->imie = dane;
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->nazwisko = dane;
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->login = dane;
                 AddToList(listaloginow, dane);
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->haslo = dane;
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->ulica = dane;
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->kodpocztowy = dane;
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->miasto = dane;
 
-                cin.sync();
+                //cin.sync();
                 getline(plik, dane);
                 //cout << dane << endl;   // do debugowania
                 wsk->kraj = dane;
@@ -873,6 +849,8 @@ public:
         plik.open("Konta.txt", std::ios::out);
         string dane;
 
+        SetConsoleTextAttribute(kolor, 10);
+
         if (!plik.good())
         {
             SetConsoleTextAttribute(kolor, 8);
@@ -900,7 +878,6 @@ public:
                 p = p->nast;
                 i++;
             }
-            SetConsoleTextAttribute(kolor, 10);
             cout << "Zapisano" << endl;
             system("pause");
             system("cls");
@@ -927,9 +904,9 @@ void wyszukanie()
     bool stan = true;
     string tytul;
     do {
-        system("cls");
+        //system("cls");
         stan = true;
-        SetConsoleTextAttribute(kolor, 15); //domyślny kolor
+        SetConsoleTextAttribute(kolor, 15); //domyœlny kolor
         cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym:\n" << endl;
         cout << " [K] Wyszukiwanie filmu za pomoca kategorii;\n" << " [T] Wyszukiwanie filmu po tytule;\n" << " [Z] Zarezerwuj film" << endl;
         if (admin == 1) {
@@ -971,11 +948,18 @@ void wyszukanie()
             // Rezerwacja filmu
         case 'Z':
             SetConsoleTextAttribute(kolor, 8);
-            cout << "\nProsze wpisac tytul filmu: ";
-            SetConsoleTextAttribute(kolor, 15);
-            cin.sync();
-            getline(cin, tytul);
-            Baza_filmow.Dostepnosc(tytul);
+            if(stan_uz)
+            {
+                cout << "\nProsze wpisac tytul filmu: ";
+                SetConsoleTextAttribute(kolor, 15);
+                cin.sync();
+                getline(cin, tytul);
+                Baza_filmow.Dostepnosc(tytul);
+            }
+            else
+            {
+                cout << "Odmowa dostepu. Usluga dostepna wylacznie dla zalogowanych uzytkownikow" << endl;
+            }
             stan = false;
             break;
 
@@ -1161,7 +1145,7 @@ void menu(int stan_uz) {
                 // Logowanie
             case 'L':
                 system("cls");
-                Klient.Logowanie();
+                stan_uz = Klient.Logowanie();
                 stan = false;
                 break;
 
@@ -1243,6 +1227,8 @@ int main()
     SetConsoleTextAttribute(kolor, 8);
     setlocale(LC_ALL, "polish");
     kolor = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    Klient.odczytajDane();
     Baza_filmow.odczytajDane();
 
     menu(stan_uz);
@@ -1253,3 +1239,4 @@ int main()
 
     return 0;
 }
+
