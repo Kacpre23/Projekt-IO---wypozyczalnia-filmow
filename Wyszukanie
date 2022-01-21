@@ -1,0 +1,53 @@
+void wyszukanie() {
+	char wybor;
+	bool stan = true;
+	do {
+		system("cls");
+		stan = true;
+	//	SetConsoleTextAttribute (kolor, 15); //domyślny kolor
+		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym:\n"	 << endl;	
+		cout << "[K] Wyszukiwanie filmu za pomoca kategorii;\n" << "[T] Wyszukiwanie filmu po tytule;\n" << "[Z] Zarezerwuj film" <<endl;
+		if (admin == 1) cout << "[D] Dodaj film do bazy danych;\n" << "[W] Wypozycz film;\n" << "[S] Stan filmow" << endl;
+	//	SetConsoleTextAttribute (kolor, 8);
+		cout << "\n\nTwoj wybor: "; 
+		cin >> wybor;	
+		system("cls");
+			//	SetConsoleTextAttribute (kolor, 15);
+		switch(toupper(wybor)) {
+			case 'K':
+				Baza_danych.Wyszuk_Kategoria();
+				break;
+			case 'T':
+				Baza_danych.Dostepnosc();
+				break;
+			case 'Z':
+				Baza_danych.Dostepnosc();
+				break;
+		if (admin == 1) {
+			case 'D':
+				film.Dodaj();
+				Baza_danych.Dodaj_do_bazy(&film);
+				break;
+			case'W':
+				Baza_danych.Wypozycz();
+				break;
+			case'S':
+				Baza_danych.Wypisz();
+				break;
+			case'P':
+				Baza_danych.load();
+				break;
+		}
+			default:
+				system("cls");
+			//	SetConsoleTextAttribute (kolor, 10); 
+				cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+			//	SetConsoleTextAttribute (kolor, 8);
+				system("pause");
+				system("cls");
+				stan = false;
+				break;
+		}
+	} while (stan == false);
+	
+}
