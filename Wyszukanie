@@ -1,53 +1,134 @@
-void wyszukanie() {
+void wyszukanie()
+{
 	char wybor;
 	bool stan = true;
+	string tytul;
 	do {
-		system("cls");
+		//system("cls");
 		stan = true;
-	//	SetConsoleTextAttribute (kolor, 15); //domyślny kolor
-		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym:\n"	 << endl;	
-		cout << "[K] Wyszukiwanie filmu za pomoca kategorii;\n" << "[T] Wyszukiwanie filmu po tytule;\n" << "[Z] Zarezerwuj film" <<endl;
-		if (admin == 1) cout << "[D] Dodaj film do bazy danych;\n" << "[W] Wypozycz film;\n" << "[S] Stan filmow" << endl;
-	//	SetConsoleTextAttribute (kolor, 8);
-		cout << "\n\nTwoj wybor: "; 
-		cin >> wybor;	
-		system("cls");
-			//	SetConsoleTextAttribute (kolor, 15);
-		switch(toupper(wybor)) {
-			case 'K':
-				Baza_danych.Wyszuk_Kategoria();
-				break;
-			case 'T':
-				Baza_danych.Dostepnosc();
-				break;
-			case 'Z':
-				Baza_danych.Dostepnosc();
-				break;
+		SetConsoleTextAttribute(kolor, 15); //domyœlny kolor
+		cout << "Prosze wybrac odpowiednia opcje za pomoca litery podanej w nawiasie kwadratowym:\n" << endl;
+		cout << " [K] Wyszukiwanie filmu za pomoca kategorii;\n" << " [T] Wyszukiwanie filmu po tytule;\n" << " [Z] Zarezerwuj film" << endl;
 		if (admin == 1) {
-			case 'D':
-				film.Dodaj();
-				Baza_danych.Dodaj_do_bazy(&film);
-				break;
-			case'W':
-				Baza_danych.Wypozycz();
-				break;
-			case'S':
-				Baza_danych.Wypisz();
-				break;
-			case'P':
-				Baza_danych.load();
-				break;
+			SetConsoleTextAttribute(kolor, 10);
+			cout << " [D] Dodaj film do bazy danych;\n" << " [W] Wypozycz film;\n" << " [S] Stan filmow" << endl;
 		}
-			default:
+		SetConsoleTextAttribute(kolor, 15);
+		cout << " [P] Powrot" << endl;
+		SetConsoleTextAttribute(kolor, 10);
+		if (admin == 1) cout << endl << " [*] - opcje admina" << endl;
+
+		SetConsoleTextAttribute(kolor, 8);
+		cout << "\n\nTwoj wybor: ";
+		SetConsoleTextAttribute(kolor, 15);
+		cin.sync();
+		cin >> wybor;
+		string tytul;
+		switch (toupper(wybor)) {
+
+			// Wyszukanie za pomoca kategorii
+		case 'K':
+			system("cls");
+			Baza_filmow.Wyszuk_Kategoria();
+			stan = false;
+			break;
+
+			// Wyszukiwanie filmu po tytule
+		case 'T':
+			SetConsoleTextAttribute(kolor, 8);
+			cout << "\nProsze wpisac tytul filmu: ";
+			SetConsoleTextAttribute(kolor, 15);
+			cin.sync();
+			getline(cin, tytul);
+			Baza_filmow.Dostepnosc(tytul);
+			stan = false;
+			break;
+
+			// Rezerwacja filmu
+		case 'Z':
+			SetConsoleTextAttribute(kolor, 8);
+			cout << "\nProsze wpisac tytul filmu: ";
+			SetConsoleTextAttribute(kolor, 15);
+			cin.sync();
+			getline(cin, tytul);
+			Baza_filmow.Dostepnosc(tytul);
+			stan = false;
+			break;
+			stan = false;
+			break;
+
+			// Dla admina: Dodawanie filmu
+		case 'D':
+			if (admin == 1)    // Aby nikt nie uruchomil opcji
+			{               // admina przez przypadek
 				system("cls");
-			//	SetConsoleTextAttribute (kolor, 10); 
+				film.Dodaj();
+				Baza_filmow.Dodaj_do_bazy(&film);
+			}
+			else
+			{
+				system("cls");
+				SetConsoleTextAttribute(kolor, 10);
 				cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
-			//	SetConsoleTextAttribute (kolor, 8);
+				SetConsoleTextAttribute(kolor, 8);
 				system("pause");
 				system("cls");
-				stan = false;
-				break;
+			}
+			stan = false;
+			break;
+
+			// Dla admina: Wypozyczane filmu
+		case'W':
+			if (admin == 1)    // Aby nikt nie uruchomil opcji
+			{               // admina przez przypadek
+				Baza_filmow.Wypozycz();
+			}
+			else
+			{
+				system("cls");
+				SetConsoleTextAttribute(kolor, 10);
+				cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+				SetConsoleTextAttribute(kolor, 8);
+				system("pause");
+				system("cls");
+			}
+			stan = false;
+			break;
+
+			// Dla admina: Stan filmow
+		case'S':
+			if (admin == 1)    // Aby nikt nie uruchomil opcji
+			{               // admina przez przypadek
+				Baza_filmow.Wypisz();
+			}
+			else
+			{
+				system("cls");
+				SetConsoleTextAttribute(kolor, 10);
+				cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+				SetConsoleTextAttribute(kolor, 8);
+				system("pause");
+				system("cls");
+			}
+			stan = false;
+			break;
+
+			// Powrot do menu glownego
+		case'P':
+			system("cls");
+			stan = true;
+			break;
+
+		default:
+			system("cls");
+			SetConsoleTextAttribute(kolor, 10);
+			cout << "Wybrono niepoprawna opcje, prosze sprobowac ponownie\n\n";
+			SetConsoleTextAttribute(kolor, 8);
+			system("pause");
+			system("cls");
+			stan = false;
+			break;
 		}
 	} while (stan == false);
-	
+	stan = false;
 }
