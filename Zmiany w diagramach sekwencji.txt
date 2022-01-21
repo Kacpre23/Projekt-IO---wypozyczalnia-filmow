@@ -1,3 +1,17 @@
-W diagramie sekwencji dla rejestracji usunięto "odczytaDane() : void" wywoływane przez "Klient".
+W diagramie sekwencji dla Rejestracji usunięto "odczytajDane() : void" wywoływane przez "Klient".
 
-W diagramie sekwencji dla rezerwacji dodano "getStan_rezerwacji() : string" wychodzące z "Baza_danych" do "Film"
+W diagramie sekwencji dla Rejestracji usunięto "zapiszDane() : void" wywoływane przez "Klient".
+
+W diagramie sekwencji dla Logowania usunięto "odczytajDane() : void" wywoływane przez "Klient".
+
+W diagramie sekwencji dla Zmiany hasla usunięto "odczytajDane() : void" wywoływane przez "Klient".
+
+W diagramie sekwencji dla Zmiany hasla usunięto "zapiszDane() : void" wywoływane przez "Klient".
+
+W diagramie sekwencji dla Dane kontaktowe usunięto "odczytajDane() : void" wywoływane przez "Dane_kontaktowe".
+
+W diagramie sekwencji dla Wyszukanie filmu za pomocą kategorii usunięto "odczytajDane() : void" wywoływane przez "Baza_danych".
+
+W diagramie sekwencji dla Rezerwacji/Wyszukanie filmu dodano "getStan_rezerwacji() : string" wychodzące z "Baza_danych" do "Film"
+
+W diagramie sekwencji dla Zwrot/dodaj film usunięto "zapiszDane() : void" wywoływane przez "Baza_danych".
