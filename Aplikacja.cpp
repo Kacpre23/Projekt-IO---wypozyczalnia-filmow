@@ -9,7 +9,7 @@
 #include <cstdlib>
 //===============================================
 #include <conio.h> 
-#include <cctype> //Biblioteka do zmiany wielkoœci liter
+#include <cctype> //Biblioteka do zmiany wielkosci liter
 
 using namespace std;
 
@@ -93,8 +93,6 @@ public:
         cout << "Rezyser filmu:    \t" << Rezyser << endl;
         cout << "Stan rezerwacji:  \t" << stan_rezerwacji2 << endl;
         SetConsoleTextAttribute(kolor, 8);
-        //system("pause");
-        //system("cls");
     }
 
     string toString() {
@@ -156,7 +154,7 @@ public:
         }
         if (pom == -1) {
             SetConsoleTextAttribute(kolor, 15);
-            cout << "Film obecnie niedostêpny. Brak mozliwosci wypozyczenia." << endl;
+            cout << "Film obecnie niedostepny. Brak mozliwosci wypozyczenia." << endl;
             SetConsoleTextAttribute(kolor, 8);
             system("pause");
             system("cls");
@@ -165,6 +163,46 @@ public:
             SetConsoleTextAttribute(kolor, 15);
             cout << "Film znajduje sie w wypozyczalni: " << endl;
             baza_danych[pom].wypisz();
+
+            if (admin == 1) 
+            {
+                bool stan2 = true;
+                string st = "Zarezerwowano";
+                if (st.compare(baza_danych[pom].getStan_rezerwacji()))
+                {
+                    do {
+                        SetConsoleTextAttribute(kolor, 15);
+                        cout << "Czy chcesz usunac rezerwacje?\n[T] Tak; \t[N] Nie" << endl;
+                        SetConsoleTextAttribute(kolor, 8);
+                        cout << "\n\nTwoj wybor: ";
+                        SetConsoleTextAttribute(kolor, 15);
+                        char wybor;
+                        stan2 = true;
+                        cin.sync();
+                        cin >> wybor;
+                        switch (toupper(wybor)) 
+                        {
+                            case 'T':
+                                baza_danych[pom].setStan_rezerwacji("Dostepne");
+                                cout << "\nPoprawnie usunieto rezerwacje filmu \n";
+                                baza_danych[pom].wypisz();
+                                break;
+                            case 'N':
+                                break;
+                            default:
+                                system("cls");
+                                SetConsoleTextAttribute(kolor, 10);
+                                cout << "Wybrano niepoprawna opcje, prosze sprobowac ponownie\n\n";
+                                SetConsoleTextAttribute(kolor, 8);
+                                system("pause");
+                                system("cls");
+                                stan2 = false;
+                                break;
+                        }
+                    } while (stan2 == false);
+                }
+            }
+
             string sr = "Dostepne";
             bool stan = true;
             if (!sr.compare(baza_danych[pom].getStan_rezerwacji())) cout << "Niestety nie mozna go w tej chwili zarezerwowac" << endl;
@@ -205,8 +243,11 @@ public:
     }
 
     void Wypozycz() {
+        SetConsoleTextAttribute(kolor, 15);
+        cout << "Podaj tytul filmu ktory chcesz wypozyczyc." << endl;
         SetConsoleTextAttribute(kolor, 8);
-        cout << "Podaj tytul filmu ktory chcesz wypozyczyc: ";
+        cout << "Tytul: ";
+        SetConsoleTextAttribute(kolor, 15);
         string tytul;
         cin.sync();
         cin >> tytul;
@@ -264,11 +305,12 @@ public:
         cout << "Dostepnych jest " << n << " kategorii:" << endl;
         for (int i = 0; i < n; i++)
         {
-            cout << " " << listaKategorii[i] << endl;
+            cout << "- " << listaKategorii[i] << endl;
         }
 
         string kategoria;
-        cout << "Prosze podac nazwe kategori: " << endl;
+        SetConsoleTextAttribute(kolor, 15);
+        cout << "\nProsze podac nazwe kategori: " << endl;
         SetConsoleTextAttribute(kolor, 8);
         cout << "Kategoria: ";
         SetConsoleTextAttribute(kolor, 15);
@@ -280,6 +322,7 @@ public:
 
         n = baza_danych.end() - baza_danych.begin();
         int m = 0;
+        SetConsoleTextAttribute(kolor, 15);
         for (int i = 0; i < n; i++)
         {
             if (kategoria == baza_danych[i].getKategoria())
@@ -288,9 +331,16 @@ public:
                 m++;
             }
         }
-        if (m == 0)
+        if (m == 0) 
+        {
+            SetConsoleTextAttribute(kolor, 10);
             cout << "Brak filmow z tej kategorii" << endl;
-        cout << endl;
+            cout << endl;
+        }
+        SetConsoleTextAttribute(kolor, 8);
+        system("pause");
+        system("cls");
+
     }
 
     // Funkcja przeznaczona do odczytu z pliku informacji o filmach
@@ -301,8 +351,9 @@ public:
 
         if (!plik.good())
         {
-            SetConsoleTextAttribute(kolor, 8);
+            SetConsoleTextAttribute(kolor, 10);
             cout << "Error: Problem z zaladowaniem danych filmow" << endl;
+            SetConsoleTextAttribute(kolor, 8);
             system("pause");
             system("cls");
         }
@@ -481,12 +532,14 @@ public:
     {
         odczytajDane();
         SetConsoleTextAttribute(kolor, 15);
-        cout << "Cena wypozyczenia kazdego filmu wynosi 10zl" << endl;
+        cout << "Cena wypozyczenia kazdego filmu wynosi 10 zl\n" << endl;
         cout << "Imie: " << imie << endl << "Nazwisko: " << nazwisko << endl;
         cout << "Mail: " << mail << endl << "Nr telefonu: " << numer_tel << endl;
         cout << "Ulica: " << ulica << endl << "Miasto: " << miasto << endl;
         cout << "Kod pocztowy: " << kodpocztowy << endl << "Kraj: " << kraj << endl;
+        SetConsoleTextAttribute(kolor, 8);
         system("pause");
+        system("cls");
     }
 };
 
@@ -595,7 +648,7 @@ public:
             SetConsoleTextAttribute(kolor, 10);
             system("pause");
             system("cls");
-            SetConsoleTextAttribute(kolor, 15);
+            SetConsoleTextAttribute(kolor, 10);
             cout << "Witaj " << login << endl;
 
             zapiszDane();
@@ -648,6 +701,9 @@ public:
 
                     SetConsoleTextAttribute(kolor, 8);
                     cout << "Zalogowano pomyslnie" << endl;
+                    system("pause");
+                    system("cls");
+                    SetConsoleTextAttribute(kolor, 10);
                     cout << "Witaj " << login << endl;
                     return Zalogowano(stan_uz);
                 }
@@ -939,11 +995,9 @@ void wyszukanie()
 
             // Wyszukiwanie filmu po tytule
         case 'T':
-            system("cls");
             SetConsoleTextAttribute(kolor, 8);
             cout << "\nProsze wpisac tytul filmu: ";
             SetConsoleTextAttribute(kolor, 15);
-            cin.sync();
             getline(cin, tytul);
             Baza_filmow.Dostepnosc(tytul);
             stan = false;
@@ -952,7 +1006,7 @@ void wyszukanie()
             // Rezerwacja filmu
         case 'Z':
             SetConsoleTextAttribute(kolor, 8);
-            if (stan_uz)
+            if (stan_uz == 1)
             {
                 cout << "\nProsze wpisac tytul filmu: ";
                 SetConsoleTextAttribute(kolor, 15);
@@ -962,7 +1016,11 @@ void wyszukanie()
             }
             else
             {
+                SetConsoleTextAttribute(kolor, 10);
                 cout << "Odmowa dostepu. Usluga dostepna wylacznie dla zalogowanych uzytkownikow" << endl;
+                SetConsoleTextAttribute(kolor, 8);
+                system("pause");
+                system("cls");
             }
             stan = false;
             break;
@@ -1072,14 +1130,18 @@ void menu(int stan_uz) {
                 system("cls");
                 cout << "Jestes juz zalogowanym uzytkownikiem" << endl;
                 SetConsoleTextAttribute(kolor, 8);
+                system("pause");
+                system("cls");
                 stan = false;
                 break;
 
                 // Rejestracja
             case 'R':
                 system("cls");
-                cout << "Jestes zarejestrowanym uzytkownikiem" << endl;
+                cout << "Jestes juz zarejestrowanym uzytkownikiem" << endl;
                 SetConsoleTextAttribute(kolor, 8);
+                system("pause");
+                system("cls");
                 stan = false;
                 break;
 
@@ -1165,6 +1227,8 @@ void menu(int stan_uz) {
                 system("cls");
                 SetConsoleTextAttribute(kolor, 8);
                 cout << "Odmowa dostepu. Usluga dostepna wylacznie dla zalogowanych uzytkownikow" << endl;
+                system("pause");
+                system("cls");
                 stan = false;
                 break;
 
