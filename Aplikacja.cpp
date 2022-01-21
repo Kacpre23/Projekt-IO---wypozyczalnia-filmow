@@ -8,13 +8,13 @@
 #include <iostream>
 #include <cstdlib>
 //===============================================
-#include <conio.h> 
+#include <conio.h>
 #include <cctype> //Biblioteka do zmiany wielkosci liter
 
 using namespace std;
 
 int stan_uz = 0; //zmienna stan_uz okreœla czy u¿ytkownik jest zalogowany, czy nie. Odblokowuje to nowe opcje w menu. Domyœlnie ustawione na 0 - niezalogowany
-int admin = 1; //Uprawnienia administratora
+int admin = 0; //Uprawnienia administratora
 HANDLE kolor; //zmienna przetrzymuj1ca nasze kolorki (tak dzia3a w windowsie)
 
 
@@ -164,7 +164,7 @@ public:
             cout << "Film znajduje sie w wypozyczalni: " << endl;
             baza_danych[pom].wypisz();
 
-            if (admin == 1) 
+            if (admin == 1)
             {
                 bool stan2 = true;
                 string st = "Zarezerwowano";
@@ -180,7 +180,7 @@ public:
                         stan2 = true;
                         cin.sync();
                         cin >> wybor;
-                        switch (toupper(wybor)) 
+                        switch (toupper(wybor))
                         {
                             case 'T':
                                 baza_danych[pom].setStan_rezerwacji("Dostepne");
@@ -205,37 +205,39 @@ public:
 
             string sr = "Dostepne";
             bool stan = true;
+
             if (!sr.compare(baza_danych[pom].getStan_rezerwacji())) cout << "Niestety nie mozna go w tej chwili zarezerwowac" << endl;
-            if (sr.compare(baza_danych[pom].getStan_rezerwacji())) {
-                do {
-                    cout << "\nCzy chcesz zarezerwowac film?:\n\n[T] Tak; \t[N] Nie;" << endl;
-                    SetConsoleTextAttribute(kolor, 8);
-                    cout << "\n\nTwoj wybor: ";
-                    SetConsoleTextAttribute(kolor, 15);
-                    char wybor;
-                    stan = true;
-                    cin.sync();
-                    cin >> wybor;
-                    switch (toupper(wybor)) {
-                    case 'T':
-                        baza_danych[pom].setStan_rezerwacji("Zarezerwowano");
-                        cout << "\nPoprawnie zarezerwowano film \n";
-                        baza_danych[pom].wypisz();
-                        break;
-                    case 'N':
-                        break;
-                    default:
-                        system("cls");
-                        SetConsoleTextAttribute(kolor, 10);
-                        cout << "Wybrano niepoprawna opcje, prosze sprobowac ponownie\n\n";
+                if (sr.compare(baza_danych[pom].getStan_rezerwacji())) {
+                    do {
+                        cout << "\nCzy chcesz zarezerwowac film?:\n\n[T] Tak; \t[N] Nie;" << endl;
                         SetConsoleTextAttribute(kolor, 8);
-                        system("pause");
-                        system("cls");
-                        stan = false;
-                        break;
-                    }
-                } while (stan == false);
-            }
+                        cout << "\n\nTwoj wybor: ";
+                        SetConsoleTextAttribute(kolor, 15);
+                        char wybor;
+                        stan = true;
+                        cin.sync();
+                        cin >> wybor;
+                        switch (toupper(wybor)) {
+                        case 'T':
+                            baza_danych[pom].setStan_rezerwacji("Zarezerwowano");
+                            cout << "\nPoprawnie zarezerwowano film \n";
+                            baza_danych[pom].wypisz();
+                            break;
+                        case 'N':
+                            break;
+                        default:
+                            system("cls");
+                            SetConsoleTextAttribute(kolor, 10);
+                            cout << "Wybrano niepoprawna opcje, prosze sprobowac ponownie\n\n";
+                            SetConsoleTextAttribute(kolor, 8);
+                            system("pause");
+                            system("cls");
+                            stan = false;
+                            break;
+                        }
+                    } while (stan == false);
+                }
+
             SetConsoleTextAttribute(kolor, 8);
             system("pause");
             system("cls");
@@ -331,7 +333,7 @@ public:
                 m++;
             }
         }
-        if (m == 0) 
+        if (m == 0)
         {
             SetConsoleTextAttribute(kolor, 10);
             cout << "Brak filmow z tej kategorii" << endl;
@@ -998,6 +1000,7 @@ void wyszukanie()
             SetConsoleTextAttribute(kolor, 8);
             cout << "\nProsze wpisac tytul filmu: ";
             SetConsoleTextAttribute(kolor, 15);
+            cin.sync();
             getline(cin, tytul);
             Baza_filmow.Dostepnosc(tytul);
             stan = false;
@@ -1006,22 +1009,13 @@ void wyszukanie()
             // Rezerwacja filmu
         case 'Z':
             SetConsoleTextAttribute(kolor, 8);
-            if (stan_uz == 1)
-            {
-                cout << "\nProsze wpisac tytul filmu: ";
-                SetConsoleTextAttribute(kolor, 15);
-                cin.sync();
-                getline(cin, tytul);
-                Baza_filmow.Dostepnosc(tytul);
-            }
-            else
-            {
-                SetConsoleTextAttribute(kolor, 10);
-                cout << "Odmowa dostepu. Usluga dostepna wylacznie dla zalogowanych uzytkownikow" << endl;
-                SetConsoleTextAttribute(kolor, 8);
-                system("pause");
-                system("cls");
-            }
+            cout << "\nProsze wpisac tytul filmu: ";
+            SetConsoleTextAttribute(kolor, 15);
+            cin.sync();
+            getline(cin, tytul);
+            Baza_filmow.Dostepnosc(tytul);
+            stan = false;
+            break;
             stan = false;
             break;
 
