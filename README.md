@@ -1,20 +1,19 @@
----
-# Standardy kodowania
+# Code Standards:
 
-W trakcie tworzenia projektu, ustaliliśmy następujące standardy kodowania:
-- Używaliśmy camelCase;
-- Nie stosowaliśmy skrótów w nazwach funkcji;
-- Używaliśmy komentarzy, komentowaliśmy funkcje i jej działanie oraz staraliśmy się unikać konstrukcji programistycznych, których nie powinno się używać w języku C++, na przykład goto.
-
----
-# Dokumentacja kodu:
-
-- Dokumentowaliśmy linijki kodu poprzez komentowanie, kontaktowaliśmy się ze sobą za pomocą komunikatorów informując o zmianach w kodzie. Komentarzami w kodzie informowaliśmy dlaczego coś zostało zrobione. 
-- Dokumnetację zrobiono w języku polskim przy użyciu języka UML.
+During the project development, we established the following coding standards:
+- We used camelCase;
+- We did not use abbreviations in function names;
+- We used comments to explain functions and their operation, and we tried to avoid programming constructs that should not be used in C++, such as goto.
 
 ---
-# Refraktoryzacja kodu (przykładowa funkcja „wyszukanie()”): 
-- znajduje się na gałęzi Wyszukanie (historia poprzedniej wersji kodu)
+# Code Documentation:
+
+- We documented code lines through commenting and communicated with each other through messaging to inform about changes in the code. We used code comments to explain why something was done.
+- The documentation was made in Polish using the UML language.
+
+---
+# Code Refactoring (example function "search()"):
+- It is located on the Search branch (history of the previous code version).
 
 ---
 # Use Case Diagram:
